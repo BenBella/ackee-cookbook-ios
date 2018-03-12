@@ -13,6 +13,7 @@ import Result
 //import ACKReactiveExtensions
 
 typealias AuthHandler = Action<NetworkError, (), NSError>
+typealias JSONObject = [String: Any]
 
 //Base class which all API Services should inherit
 
