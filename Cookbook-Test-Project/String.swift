@@ -77,5 +77,8 @@ extension String {
         return phoneTest.evaluate(with:self)
     }
     
+    func createDurationString(duration: Int) -> String {
+        return duration < 60 ? String(duration) + " min." :  String(duration/60) + " hr."
+    }
 }
 

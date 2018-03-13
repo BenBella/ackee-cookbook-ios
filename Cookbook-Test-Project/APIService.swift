@@ -54,13 +54,13 @@ class APIService {
                 guard self.requestUsedCurrentAuthData(originalRequest) else { return retry() } // check that we havent refreshed token while the request was running
                 let refreshSuccessful = SignalProducer(authHandler.events)
                     .filter { $0.isTerminating } // dont care about values
-                .map { e -> Bool in
-                    switch e {
-                    case .completed: return true
-                    case .failed, .interrupted: return false
-                    default: assertionFailure(); return false
+                    .map { e -> Bool in
+                        switch e {
+                        case .completed: return true
+                        case .failed, .interrupted: return false
+                        default: assertionFailure(); return false
+                        }
                     }
-                }
                     .take(first: 1)
 
                 return refreshSuccessful

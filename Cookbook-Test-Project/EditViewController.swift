@@ -9,26 +9,27 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
+import SnapKit
 import enum Result.NoError
 
-class EditViewController: BaseViewController {
+class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
-    let scrollView = UIScrollView()
-    let recipeNameLabel = UILabel()
-    let recipeNameTextField = UITextField()
-    let separator1 = UIView()
-    let infoTextLabel = UILabel()
-    let infoTextView = UITextView()
-    let separator2 = UIView()
-    let ingredientsLabel = UILabel()
-    let ingredientsStackView = UIStackView()
-    let ingredientAddButton = UIButton()
-    let descriptionLabel = UILabel()
-    let descriptionTextView = UITextView()
-    let separator3 = UIView()
-    let durationLabel = UILabel()
-    let durationTextField = UITextField()
-    let separator4 = UIView()
+    private let scrollView = UIScrollView()
+    private let recipeNameLabel = UILabel()
+    private let recipeNameTextField = UITextField()
+    private let separator1 = UIView()
+    private let infoTextLabel = UILabel()
+    private let infoTextView = UITextView()
+    private let separator2 = UIView()
+    private let ingredientsLabel = UILabel()
+    private let ingredientsStackView = UIStackView()
+    private let ingredientAddButton = UIButton()
+    private let descriptionLabel = UILabel()
+    private let descriptionTextView = UITextView()
+    private let separator3 = UIView()
+    private let durationLabel = UILabel()
+    private let durationTextField = UITextField()
+    private let separator4 = UIView()
         
     static let inset = 20
     static let separatorHeight = 1
@@ -40,6 +41,8 @@ class EditViewController: BaseViewController {
     
     private var saveAction: CocoaAction<Any>
     private let saveButtonItem: UIBarButtonItem
+    private var activeField: UIView?
+    private var infoShown = false
     
     private var viewModel: EditViewModel
     
@@ -87,9 +90,8 @@ class EditViewController: BaseViewController {
         viewModel.name <~ recipeNameTextField.reactive.textValues.skipNil().producer
         viewModel.info <~ infoTextView.reactive.textValues.skipNil().producer
         viewModel.description <~ descriptionTextView.reactive.textValues.skipNil().producer
-        viewModel.duration <~ durationTextField.reactive.textValues.skipNil().map{ Int($0) }.skipNil().producer
         viewModel.ingredients <~ ingredients.producer
-        viewModel.duration <~ durationTextField.reactive.textValues.skipNil().map{ Int($0) }.skipNil().producer
+        //viewModel.duration <~ durationTextField.reactive.textValues.skipNil().map{Int($0)}.skipNil().producer
         
         viewModel.saveAction.events.observe(on: UIScheduler()).observe { [weak self]  event in
             switch event {
@@ -99,6 +101,7 @@ class EditViewController: BaseViewController {
                 if let error = value.error {
                     self?.showErrorAlert(error: error)
                 } else {
+                    self?.clearContent()
                     self?.navigationController?.popViewController(animated: true)
                 }
             case .completed, .interrupted:
@@ -132,7 +135,8 @@ class EditViewController: BaseViewController {
         scrollView.isScrollEnabled = true
         scrollView.backgroundColor = UIColor.theme.white
         scrollView.snp.makeConstraints { (make) -> Void in
-            make.size.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
             make.top.equalToSuperview()
             make.left.equalToSuperview()
         }
@@ -152,6 +156,7 @@ class EditViewController: BaseViewController {
         }
         
         scrollView.addSubview(recipeNameTextField)
+        recipeNameTextField.delegate = self
         recipeNameTextField.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(recipeNameLabel.snp.bottom).offset(10)
             make.width.equalToSuperview().inset(inset)
@@ -218,7 +223,7 @@ class EditViewController: BaseViewController {
         ingredientsStackView.alignment = .center;
         ingredientsStackView.spacing = 10;
         ingredientsStackView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(ingredientsLabel.snp.bottom).offset(inset)
+            make.top.equalTo(ingredientsLabel.snp.bottom)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
@@ -229,7 +234,7 @@ class EditViewController: BaseViewController {
         createViewBorder(for: self.ingredientAddButton, flag: false, color: UIColor.theme.pink)
         ingredientAddButton.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(ingredientsStackView.snp.bottom).offset(inset)
-            make.width.equalTo(superview.frame.width / 1.5)
+            make.width.equalTo(200)
             make.left.equalToSuperview().offset(inset)
         }
         
@@ -246,6 +251,7 @@ class EditViewController: BaseViewController {
         }
         
         scrollView.addSubview(descriptionTextView)
+        descriptionTextView.delegate = self
         descriptionTextView.textColor = UIColor.theme.darkGray
         descriptionTextView.font = UIFont.theme.text
         descriptionTextView.backgroundColor = UIColor.theme.white
@@ -278,6 +284,7 @@ class EditViewController: BaseViewController {
         }
         
         scrollView.addSubview(durationTextField)
+        durationTextField.delegate = self
         durationTextField.textColor = UIColor.theme.dimGray
         durationTextField.backgroundColor = UIColor.theme.white
         durationTextField.snp.makeConstraints { (make) -> Void in
@@ -304,7 +311,7 @@ class EditViewController: BaseViewController {
     // MARK: - UI behaviour setup
     
     func configureUI() {
-        let validRecipeNameSignal = textFieldValidation(for: recipeNameTextField)
+        let validRecipeNameSignal = nameTextFieldValidation(for: recipeNameTextField)
         createViewBorder(for: self.recipeNameTextField, flag: false, color: UIColor.theme.pink)
         validRecipeNameSignal.observeValues { [unowned self] flag in
             self.createViewBorder(for: self.recipeNameTextField, flag: flag, color: UIColor.theme.pink)
@@ -323,6 +330,9 @@ class EditViewController: BaseViewController {
         }
         
         ingredientAddButton.reactive.controlEvents(.touchUpInside).observeValues { [unowned self] sender in
+            self.ingredientsStackView.snp.updateConstraints{ [unowned self] (make) -> Void in
+                make.top.equalTo(self.ingredientsLabel.snp.bottom).offset(20)
+            }
             let ingredienceTextField = UITextField()
             let validIngredienceTextFieldSignal = self.textFieldValidation(for: ingredienceTextField)
             validIngredienceTextFieldSignal.observeValues{ [unowned self, unowned ingredienceTextField] flag in
@@ -356,21 +366,16 @@ class EditViewController: BaseViewController {
             self.createViewBorder(for: self.durationTextField, flag: flag, color: UIColor.theme.pink)
         }
         
-        Signal.combineLatest(validRecipeNameSignal, validInfoTextSignal, validStackViewSignal, validDescriptionTextSignal, validDurationTextSignal).map{ $0 && $1 && $2 && $3 && $4 }.observeValues { [unowned self] flag in
+        Signal.combineLatest(validRecipeNameSignal, validInfoTextSignal, validStackViewSignal, validDescriptionTextSignal, validDurationTextSignal).map{ $0 && $1 && $2 && $3 && $4 }.observeValues {  flag in
             self.saveButtonItem.isEnabled = flag
             self.viewModel.inputIsValid.swap(flag)
             if (flag == true) {
+                self.viewModel.duration.swap(Int(self.durationTextField.text!)!)
                 self.ingredients.swap(self.ingredientsTextFields.map{ $0.text ?? ""})
             }
         }
         
-        let tapGestureRecognizer = UITapGestureRecognizer()
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.addTarget(self, action: #selector(closeKeyboard(_:)))
-        self.view.addGestureRecognizer(tapGestureRecognizer)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(EditViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(EditViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        registerForKeyboardNotifications()
         
         self.saveButtonItem.isEnabled = false
     }
@@ -388,7 +393,7 @@ class EditViewController: BaseViewController {
             .reactive
             .continuousTextValues
             .skipNil()
-            .map { $0.count > 0 && Int($0) != nil }
+            .map { $0.count > 0 && Int($0) != nil && Int($0) != 0}
     }
     
     func textFieldValidation(for field: UITextField) -> Signal<Bool, NoError> {
@@ -399,7 +404,25 @@ class EditViewController: BaseViewController {
             .map { $0.count > 3 }
     }
     
+    func nameTextFieldValidation(for field: UITextField) -> Signal<Bool, NoError> {
+        return field
+            .reactive
+            .continuousTextValues
+            .skipNil()
+            .map { $0.range(of: "Ackee") != nil }
+    }
+    
     // MARK: - Keyboard
+
+    func registerForKeyboardNotifications() {
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.addTarget(self, action: #selector(closeKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGestureRecognizer)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(EditViewController.adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditViewController.adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
+    }
     
     @objc
     func closeKeyboard(_ sender: Any) {
@@ -408,24 +431,84 @@ class EditViewController: BaseViewController {
         ingredientsTextFields.forEach { $0.resignFirstResponder() }
         descriptionTextView.resignFirstResponder()
         durationTextField.resignFirstResponder()
+        activeField = nil
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let test = abs(self.scrollView.contentOffset.y - self.scrollView.contentSize.height)
-            if test - 40...test ~= self.scrollView.frame.height {
-                if self.scrollView.frame.origin.y == 0 {
-                    self.scrollView.frame.origin.y -= keyboardSize.height
-                }
-            }
+    @objc
+    func adjustForKeyboard(notification: Notification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            scrollView.contentInset = UIEdgeInsets.zero
+        } else {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
+        
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        if activeField != nil && notification.name == Notification.Name.UIKeyboardWillShow {
+            let point = CGPoint(x: 0, y: max(scrollView.contentSize.height - activeField!.frame.maxY + keyboardViewEndFrame.height, 0))
+            scrollView.setContentOffset(point, animated: true)
         }
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.scrollView.frame.origin.y != 0 {
-                self.scrollView.frame.origin.y += keyboardSize.height
-            }
+    // MARK: - UITextFieldDelegate
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField === recipeNameTextField && self.infoShown == false {
+            showInfoAlert(time: 2, info: "edit.recipeName.info".localized, completion: { [unowned self] in
+                self.infoShown = true
+                self.recipeNameTextField.becomeFirstResponder()
+            })
+            return false
+        } else if textField === recipeNameTextField {
+            return true
+        } else {
+            activeField = textField
+            return true
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField === recipeNameTextField {
+            self.infoShown = false
+        }
+        activeField?.resignFirstResponder()
+        activeField = nil
+        return true
+    }
+    
+    // MARK: - UITextViewDelegate
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        activeField = textView
+        return true
+    }
+    
+    func textViewShouldReturn(_ textView: UITextView) -> Bool {
+        activeField?.resignFirstResponder()
+        activeField = nil
+        return true
+    }
+    
+    // MARK: Helper methods
+    
+    func clearContent() {
+        recipeNameTextField.text = ""
+        createViewBorder(for: recipeNameTextField, flag: false, color: UIColor.theme.pink)
+        infoTextView.text = ""
+        createViewBorder(for: infoTextView, flag: false, color: UIColor.theme.pink)
+        descriptionTextView.text = ""
+        createViewBorder(for: descriptionTextView, flag: false, color: UIColor.theme.pink)
+        durationTextField.text = ""
+        createViewBorder(for: durationTextField, flag: false, color: UIColor.theme.pink)
+        
+        ingredientsStackView.subviews.forEach { $0.removeFromSuperview() }
+        saveButtonItem.isEnabled = false
+        scrollView.setNeedsLayout()
+    }
+    
 }

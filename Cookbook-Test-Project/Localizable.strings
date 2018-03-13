@@ -25,13 +25,16 @@
 "detail.ingredients.title" = "Ingredients";
 "detail.description.title" = "Description";
 "detail.rate.title" = "Rate this recipe";
+"detail.rate.thankYou" = "Thank you for rating!";
 
 // Edit
 "edit.create.title" = "Add recipe";
 "edit.update.title" = "Edit recipe";
 "edit.recipeName.title" = "recipe name";
+"edit.recipeName.info" = "Name must obtain Ackee at least once!";
 "edit.openingText.title" = "Opening text";
 "edit.ingredients.title" = "Ingredients";
 "edit.description.title" = "Description";
 "edit.addIngredientButton.title" = "Add ingredient";
 "edit.duration.title" = "Time";
+

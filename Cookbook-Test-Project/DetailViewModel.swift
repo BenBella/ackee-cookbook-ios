@@ -53,11 +53,14 @@ class DetailViewModel {
     }
     
     // Actions
-    lazy var evaluteAction: Action<Void, Any?, RequestError> = { [unowned self] in
-        return Action() { [unowned self] _ in
-            return self.api.evaluateRecipe(id: self.recipeId ?? "")
+    lazy var evaluateAction: Action<Int, Any?, RequestError> = { [unowned self] (input: Int) in
+        return Action<Int, Any?, RequestError>() { [unowned self] (input: Int) in
+            let parameters = EvaluateParameters(
+                score: input
+            )
+            return self.api.evaluateRecipe(id: self.recipeId ?? "", parameters: parameters)
         }
-    }()
+    }(0)
     
     // MARK: - Lifecycle
     

@@ -9,6 +9,7 @@
 import Foundation
 import ReactiveSwift
 import Unbox
+import Alamofire
 
 protocol CookbookAPIServicing {
     func getRecipes() -> SignalProducer<Any?,RequestError>
@@ -40,12 +41,7 @@ class CookbookAPIService : APIService, CookbookAPIServicing {
     }
     
     internal func createRecipe(_ parameters: RecipeParameters) -> SignalProducer<Any?, RequestError> {
-        return self.request("recipes/", method: .post, parameters: parameters.jsonObject())
-            .mapError { .network($0) }
-    }
-    
-    internal func updateRecipe(id: String) -> SignalProducer<Any?, RequestError> {
-        return self.request("recipes/" + id, method: .put, parameters: nil)
+        return self.request("recipes/", method: .post, parameters: parameters.jsonObject(), encoding: JSONEncoding.default)
             .mapError { .network($0) }
     }
     
@@ -54,8 +50,8 @@ class CookbookAPIService : APIService, CookbookAPIServicing {
             .mapError { .network($0) }
     }
     
-    internal func evaluateRecipe(id: String) -> SignalProducer<Any?, RequestError> {
-        return self.request("recipes/" + id, method: .delete)
+    internal func evaluateRecipe(id: String, parameters: EvaluateParameters) -> SignalProducer<Any?, RequestError> {
+        return self.request("recipes/" + id + "/ratings", method: .post, parameters: parameters.jsonObject(), encoding: JSONEncoding.default)
             .mapError { .network($0) }
     }
 }

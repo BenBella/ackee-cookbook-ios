@@ -10,29 +10,23 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class MasterViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class MasterViewController: UITableViewController {
 
-    let tableView = UITableView()
-    
     private let pullToRefreshControl = UIRefreshControl()
     
     var detailViewController: DetailViewController? = nil
-    var objects = [Any]()
 
     var viewModel = MasterViewModel(api: CookbookAPIService(network: Network(), authHandler: nil))
-    var disposable: Disposable?
     
     // MARK: - Lifecycle
     
     deinit {
-        disposable?.dispose()
     }
 
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeConstraints()
         configureUI()
         bindViewModel()
     }
@@ -82,29 +76,11 @@ class MasterViewController: BaseViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    // MARK: Layout
-    
-    func makeConstraints() {
-        let superview = self.view!
-        
-        superview.addSubview(tableView)
-        tableView.isScrollEnabled = true
-        tableView.backgroundColor = UIColor.theme.white
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.size.equalToSuperview()
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-        }
-    }
-    
     // MARK: - UI behaviour setup
     
     func configureUI() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 140
-        tableView.register(RecipeItemCell.self, forCellReuseIdentifier: "Cell")
-        tableView.delegate = self
-        tableView.dataSource = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonItemPressed(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(openButtonItemPressed(_:)))
         
@@ -138,13 +114,16 @@ class MasterViewController: BaseViewController, UITableViewDataSource, UITableVi
     
     @objc
     func openButtonItemPressed(_ sender: Any) {
-        self.splitViewController?.showDetailViewController(EditViewController(viewModel: viewModel.editViewModel()), sender: nil)
+        let navigationViewController = UINavigationController(rootViewController: EditViewController(viewModel: viewModel.editViewModel()))
+        navigationViewController.topViewController?.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        navigationViewController.topViewController?.navigationItem.leftItemsSupplementBackButton = true
+        self.splitViewController?.showDetailViewController(navigationViewController, sender: nil)
     }
 
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowDetail" {   
+        if segue.identifier == "showDetail" {   
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.viewModel = viewModel.detailViewModelForRecipeAt(indexPath)
@@ -156,15 +135,15 @@ class MasterViewController: BaseViewController, UITableViewDataSource, UITableVi
 
     // MARK: - Table View
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.numberOfSections()
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfMatchesInSection(section: section)
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RecipeItemCell
         cell.updateName(viewModel.recipeNameAt(indexPath))
         cell.updateDuration(viewModel.recipeDurationAt(indexPath))
@@ -172,21 +151,17 @@ class MasterViewController: BaseViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             viewModel.deleteAction.apply(indexPath).start()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowDetail", sender: nil)
     }
 
 }

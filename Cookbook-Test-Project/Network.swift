@@ -41,13 +41,19 @@ class Network: Networking {
                     case (_, .some(let e)):
                         sink.send(error: NetworkError(error: e as NSError, request: request, response: response))
                     case (.some(let d), _):
-                        do {
-                            let json = try JSONSerialization.jsonObject(with: d, options: .allowFragments)
-                            sink.send(value: json)
+                        // TODO: Should be discussed with a backend developer, there could be nicer way how to handle delete action.
+                        if request?.httpMethod == "DELETE" && response?.statusCode == 204 {
+                            sink.send(value: true)
                             sink.sendCompleted()
-                        } catch {
-                            sink.send(error: NetworkError(error: (error as NSError), request: request, response: response))
-                            return
+                        } else {
+                            do {
+                                let json = try JSONSerialization.jsonObject(with: d, options: .allowFragments)
+                                sink.send(value: json)
+                                sink.sendCompleted()
+                            } catch {
+                                sink.send(error: NetworkError(error: (error as NSError), request: request, response: response))
+                                return
+                            }
                         }
                     default: assertionFailure()
                     }

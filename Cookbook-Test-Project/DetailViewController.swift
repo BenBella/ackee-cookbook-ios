@@ -10,37 +10,48 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 
-class DetailViewController: BaseViewController {
+class DetailViewController: UIViewController {
     
-    let scrollView = UIScrollView()
-    let headerImageView = UIImageView()
-    let infoLabel = UILabel()
-    let ingredientsTitleLabel = UILabel()
-    let ingredientsStackView = UIStackView()
-    let descriptionTitleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let footerView = UIView()
-    let scoreEvaluateLabel = UILabel()
-    let scoreEvaluateButtonsWrapper = UIView()
+    private let scrollView = UIScrollView()
+    private let headerImageView = UIImageView()
+    private let headerImageOverlayView = UIView()
+    private let recipeNameLabel = UILabel()
+    private let stripWrapperView = UIView()
+    private let scoreWrapperView = UIView()
+    private let durationIcon = UIImageView()
+    private let durationLabel = UILabel()
+    private let infoLabel = UILabel()
+    private let ingredientsTitleLabel = UILabel()
+    private let ingredientsStackView = UIStackView()
+    private let descriptionTitleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private let footerView = UIView()
+    private let scoreEvaluateLabel = UILabel()
+    private let scoreEvaluateButtonsWrapper = UIView()
+    
+    private var evaluateButtons = [UIButton]()
+    private var evaluateAction: CocoaAction<Any>?
     
     var viewModel: DetailViewModel?
-    
-    var disposable: Disposable?
     
     static let inset = 20
     
     // MARK: - Lifecycle
     
     deinit {
-        disposable?.dispose()
     }
     
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideSubviews()
         makeConstraints()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,14 +75,19 @@ class DetailViewController: BaseViewController {
                 self.showErrorAlert(error: error)
             case .value(_): do {
                     if let viewModel = self.viewModel {
+                        self.recipeNameLabel.text = viewModel.recipeName
                         self.infoLabel.text = viewModel.recipeInfo
-                        self.ingredientsTitleLabel.text = viewModel.recipeIngredientsLabelTitle
+                        self.ingredientsTitleLabel.text = viewModel.recipeIngredientsLabelTitle.uppercased()
+                        self.durationIcon.image = #imageLiteral(resourceName: "ic_time_white")
+                        self.updateScoreView(viewModel.recipeScore)
+                        self.durationLabel.text = viewModel.recipeDuration.createDurationString()
                         self.updateIngredientsStackView(viewModel.recipeIngredients)
-                        self.descriptionTitleLabel.text = viewModel.recipeDescriptionLabelTitle
+                        self.descriptionTitleLabel.text = viewModel.recipeDescriptionLabelTitle.uppercased()
                         self.descriptionLabel.text = viewModel.recipeDescription
-                        self.scoreEvaluateLabel.text = viewModel.recipeScoreEvaluateLabelTitle
+                        self.scoreEvaluateLabel.text = viewModel.recipeScoreEvaluateLabelTitle.uppercaseFirst
                         self.view.layoutIfNeeded()
                         self.scrollView.contentSize.height = self.footerView.frame.maxY
+                        self.showSubviews()
                     }
                 }
             case .completed, .interrupted:
@@ -92,6 +108,29 @@ class DetailViewController: BaseViewController {
             case .completed, .interrupted:
                 break
             }
+        }
+        
+        viewModel!.evaluateAction.events.observe(on: UIScheduler()).observe { [weak self]  event in
+            switch event {
+            case let .failed(error):
+                self?.showErrorAlert(error: error)
+            case let .value(value):
+                if let error = value.error {
+                    self?.showErrorAlert(error: error)
+                } else {
+                    self?.showInfoAlert(time: 2, info: "detail.rate.thankYou".localized)
+                }
+            case .completed, .interrupted:
+                break
+            }
+        }
+        
+        self.evaluateAction = CocoaAction(viewModel!.evaluateAction, { sender in
+            return (sender as! UIButton).tag }
+        )
+        
+        evaluateButtons.forEach {
+            $0.addTarget(self.evaluateAction, action: CocoaAction<Any>.selector as Selector, for: .touchUpInside)
         }
     }
     
@@ -118,52 +157,112 @@ class DetailViewController: BaseViewController {
             make.left.equalToSuperview()
         }
         
+        headerImageView.addSubview(headerImageOverlayView)
+        headerImageOverlayView.backgroundColor = UIColor.theme.transparentBlack
+        headerImageOverlayView.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(headerImageView)
+            make.left.equalTo(headerImageView)
+            make.top.equalTo(headerImageView)
+        }
+        
+        headerImageOverlayView.addSubview(stripWrapperView)
+        stripWrapperView.backgroundColor = UIColor.theme.pink
+        stripWrapperView.snp.makeConstraints { (make) -> Void in
+            make.width.equalToSuperview()
+            make.height.equalTo(superview.frame.width / 7)
+            make.bottom.equalToSuperview()
+        }
+        
+        stripWrapperView.addSubview(scoreWrapperView)
+        scoreWrapperView.backgroundColor = UIColor.theme.clear
+        scoreWrapperView.snp.makeConstraints { (make) -> Void in
+            make.centerY.equalTo(stripWrapperView.snp.centerY)
+            make.left.equalTo(stripWrapperView.snp.left).offset(30)
+            make.height.equalTo(22)
+        }
+        
+        stripWrapperView.addSubview(durationIcon)
+        durationIcon.backgroundColor = UIColor.theme.clear
+        durationIcon.snp.makeConstraints { (make) -> Void in
+            make.centerY.equalTo(stripWrapperView.snp.centerY)
+            make.left.equalTo(scoreWrapperView.snp.right)
+            make.width.height.equalTo(22)
+        }
+        
+        stripWrapperView.addSubview(durationLabel)
+        durationLabel.backgroundColor = UIColor.theme.clear
+        durationLabel.textColor = UIColor.theme.white
+        durationLabel.textAlignment = .right
+        durationLabel.snp.makeConstraints { (make) -> Void in
+            make.centerY.equalTo(stripWrapperView.snp.centerY)
+            make.left.equalTo(durationIcon.snp.right).offset(10)
+            make.right.equalTo(stripWrapperView.snp.right).inset(30)
+            make.height.equalTo(22)
+        }
+        
+        headerImageView.addSubview(recipeNameLabel)
+        recipeNameLabel.numberOfLines = 0
+        recipeNameLabel.font = UIFont.theme.bigTitleBold
+        recipeNameLabel.textColor = UIColor.theme.white
+        recipeNameLabel.backgroundColor = UIColor.theme.clear
+        recipeNameLabel.snp.makeConstraints { (make) -> Void in
+            make.left.equalTo(headerImageView).offset(20)
+            make.width.equalToSuperview().inset(20)
+            make.bottom.equalTo( stripWrapperView.snp.top).inset(-20)
+        }
+        
         let inset = DetailViewController.inset
         
         scrollView.addSubview(infoLabel)
         infoLabel.numberOfLines = 0
-        infoLabel.backgroundColor = UIColor.darkGray
+        infoLabel.font = UIFont.theme.text
+        infoLabel.backgroundColor = UIColor.theme.white
         infoLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(headerImageView.snp.bottom)
+            make.top.equalTo(headerImageView.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
         
         scrollView.addSubview(ingredientsTitleLabel)
         ingredientsTitleLabel.numberOfLines = 1
-        ingredientsTitleLabel.backgroundColor = UIColor.darkGray
+        ingredientsTitleLabel.font = UIFont.theme.textBold
+        ingredientsTitleLabel.textColor = UIColor.theme.blue
+        ingredientsTitleLabel.backgroundColor = UIColor.theme.white
         ingredientsTitleLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(infoLabel.snp.bottom)
+            make.top.equalTo(infoLabel.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
         
         scrollView.addSubview(ingredientsStackView)
-        ingredientsStackView.backgroundColor = UIColor.brown
+        ingredientsStackView.backgroundColor = UIColor.theme.white
         ingredientsStackView.axis = .vertical;
         ingredientsStackView.distribution = .equalSpacing;
         ingredientsStackView.alignment = .center;
         ingredientsStackView.spacing = 5;
         ingredientsStackView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(ingredientsTitleLabel.snp.bottom)
+            make.top.equalTo(ingredientsTitleLabel.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
         
         scrollView.addSubview(descriptionTitleLabel)
         descriptionTitleLabel.numberOfLines = 1
-        descriptionTitleLabel.backgroundColor = UIColor.darkGray
+        descriptionTitleLabel.font = UIFont.theme.textBold
+        descriptionTitleLabel.textColor = UIColor.theme.blue
+        descriptionTitleLabel.backgroundColor = UIColor.theme.white
         descriptionTitleLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(ingredientsStackView.snp.bottom)
+            make.top.equalTo(ingredientsStackView.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
         
         scrollView.addSubview(descriptionLabel)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.backgroundColor = UIColor.darkGray
+        descriptionLabel.font = UIFont.theme.text
+        descriptionLabel.backgroundColor = UIColor.theme.white
         descriptionLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(descriptionTitleLabel.snp.bottom)
+            make.top.equalTo(descriptionTitleLabel.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
             make.centerX.equalToSuperview()
         }
@@ -171,29 +270,31 @@ class DetailViewController: BaseViewController {
         scrollView.addSubview(footerView)
         footerView.backgroundColor = UIColor.blue
         footerView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(descriptionLabel.snp.bottom)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(inset)
             make.width.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.equalTo(100)
+            make.height.equalTo(superview.frame.width / 3)
         }
         
         footerView.addSubview(scoreEvaluateLabel)
         scoreEvaluateLabel.textAlignment = .center
-        scoreEvaluateLabel.backgroundColor = UIColor.purple
+        scoreEvaluateLabel.textColor = UIColor.theme.white
+        scoreEvaluateLabel.font = UIFont.theme.titleBold
+        scoreEvaluateLabel.backgroundColor = UIColor.theme.clear
         scoreEvaluateLabel.snp.makeConstraints { (make) -> Void in
             make.width.equalToSuperview().inset(inset)
             make.height.equalTo(20)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-10)
+            make.centerY.equalToSuperview().offset(-20)
         }
         
         footerView.addSubview(scoreEvaluateButtonsWrapper)
-        scoreEvaluateButtonsWrapper.backgroundColor = UIColor.purple
+        scoreEvaluateButtonsWrapper.backgroundColor = UIColor.theme.blue
         scoreEvaluateButtonsWrapper.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(100)
-            make.height.equalTo(20)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(10)
+            make.centerY.equalToSuperview().offset(20)
         }
         
         var prevButton: UIButton?
@@ -201,20 +302,18 @@ class DetailViewController: BaseViewController {
             let starButton = UIButton(type: .custom)
             starButton.tag = index
             starButton.setImage(#imageLiteral(resourceName: "ic_star_white"), for: .normal)
-            starButton.reactive.controlEvents(.touchUpInside).observeValues { [unowned self] button in
-                //self.viewModel?.evaluteRecipe(score: button.tag)
-            }
+            self.evaluateButtons.append(starButton)
             scoreEvaluateButtonsWrapper.addSubview(starButton)
             if prevButton == nil {
                 starButton.snp.makeConstraints{ (make) -> Void in
-                    make.height.width.equalTo(20)
+                    make.height.width.equalTo(40)
                     make.centerY.equalTo(scoreEvaluateButtonsWrapper.snp.centerY)
                     make.left.equalTo(scoreEvaluateButtonsWrapper.snp.left)
                 }
                 prevButton = starButton
             } else {
                 starButton.snp.makeConstraints{ (make) -> Void in
-                    make.height.width.equalTo(20)
+                    make.height.width.equalTo(40)
                     make.centerY.equalTo(scoreEvaluateButtonsWrapper.snp.centerY)
                     make.left.equalTo(prevButton!.snp.right)
                 }
@@ -236,6 +335,49 @@ class DetailViewController: BaseViewController {
                 ingredientsStackView.addArrangedSubview(ingredienceLabel)
             }
         }
+    }
+    
+    // MARK: Helper methods
+    
+    func updateScoreView(_ score: Double) {
+        scoreWrapperView.subviews.forEach({ $0.removeFromSuperview() })
+        var prevIcon: UIImageView?
+        let rounded = Int(score.rounded())
+        for index in 0...rounded {
+            guard index < 5 else {
+                break
+            }
+            let starIcon = UIImageView()
+            starIcon.image = #imageLiteral(resourceName: "ic_star_white")
+            scoreWrapperView.addSubview(starIcon)
+            if prevIcon == nil {
+                starIcon.snp.makeConstraints{ (make) -> Void in
+                    make.height.width.equalTo(18)
+                    make.centerY.equalTo(scoreWrapperView.snp.centerY)
+                    make.left.equalTo(scoreWrapperView.snp.left)
+                }
+                prevIcon = starIcon
+            } else {
+                starIcon.snp.makeConstraints{ (make) -> Void in
+                    make.height.width.equalTo(18)
+                    make.centerY.equalTo(scoreWrapperView.snp.centerY)
+                    make.left.equalTo(prevIcon!.snp.right)
+                }
+                prevIcon = starIcon
+            }
+        }
+    }
+    
+    func showSubviews() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.scrollView.alpha = 1.0
+        })
+    }
+    
+    func hideSubviews() {
+        UIView.animate(withDuration: 0.0, animations: {
+            self.scrollView.alpha = 0.0
+        })
     }
     
 }

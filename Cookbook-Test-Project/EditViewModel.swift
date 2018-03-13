@@ -45,13 +45,7 @@ class EditViewModel {
             return self.api.createRecipe(parameters)
         }
     }()
-    
-    lazy var updateAction: Action<Void, Any?, RequestError> = { [unowned self] in
-        return Action(enabledIf: self.inputIsValid) { [unowned self] _ in
-            return self.api.updateRecipe(id: "")
-        }
-    }()
-    
+        
     // MARK: - Lifecycle
     
     init(api: CookbookAPIService) {
@@ -63,7 +57,7 @@ class EditViewModel {
         
         // Feed deletion errors into alert message signal
         
-        updateAction.errors.observe(alertMessageObserver)
+        saveAction.errors.observe(alertMessageObserver)
     }
     
 }

@@ -11,12 +11,13 @@ import SnapKit
 
 class RecipeItemCell: UITableViewCell {
 
-    let recipeImageView = UIImageView()
-    let recipeTitleLabel = UILabel()
-    let recipeScoreWrapper = UIView()
-    let recipeDurationWrapper = UIView()
-    let recipeDurationIcon = UIImageView()
-    let recipeDurationLabel = UILabel()
+    private let recipeImageView = UIImageView()
+    private let recipeTitleLabel = UILabel()
+    private let recipeScoreWrapper = UIView()
+    private let recipeDurationWrapper = UIView()
+    private let recipeDurationIcon = UIImageView()
+    private let recipeDurationLabel = UILabel()
+    private let separator = UIView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -87,11 +88,20 @@ class RecipeItemCell: UITableViewCell {
         recipeDurationWrapper.addSubview(recipeDurationLabel)
         recipeDurationLabel.backgroundColor = UIColor.theme.white
         recipeDurationLabel.textColor = UIColor.theme.darkGray
+        recipeDurationLabel.font = UIFont.theme.text
         recipeDurationLabel.snp.makeConstraints{ (make) -> Void in
             make.height.equalTo(recipeDurationWrapper)
             make.top.equalTo(recipeDurationWrapper.snp.top)
             make.left.equalTo(recipeDurationIcon.snp.right).offset(4)
             make.right.equalTo(recipeDurationWrapper.snp.right)
+        }
+        
+        superview.addSubview(separator)
+        separator.backgroundColor = UIColor.theme.lightGray
+        separator.snp.makeConstraints{ (make) -> Void in
+            make.height.equalTo(1)
+            make.width.equalTo(superview.snp.width)
+            make.bottom.equalTo(superview.snp.bottom)
         }
     }
     
@@ -100,7 +110,7 @@ class RecipeItemCell: UITableViewCell {
     }
     
     func updateDuration(_ duration: Int) {
-        recipeDurationLabel.text = duration < 60 ? String(duration) + " min." :  String(duration/60) + " hr."
+        recipeDurationLabel.text = duration.createDurationString()
     }
     
     func updateScoreView(_ score: Double) {
@@ -108,7 +118,7 @@ class RecipeItemCell: UITableViewCell {
         var prevIcon: UIImageView?
         let rounded = Int(score.rounded())
         for index in 0...rounded {
-            guard index < 6 else {
+            guard index < 5 else {
                 break
             }
             let starIcon = UIImageView()
