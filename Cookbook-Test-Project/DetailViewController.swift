@@ -60,7 +60,7 @@ class DetailViewController: UIViewController {
     
     // MARK: - Bindings
     
-    func bindViewModel() {
+    private func bindViewModel() {
         guard viewModel != nil else {
             return
         }
@@ -136,7 +136,7 @@ class DetailViewController: UIViewController {
     
     // MARK: Layout
     
-    func makeConstraints() {
+    private func makeConstraints() {
         let superview = self.view!
         
         superview.addSubview(scrollView)
@@ -323,7 +323,7 @@ class DetailViewController: UIViewController {
         
     }
     
-    func updateIngredientsStackView(_ ingredients: [String]) {
+    private func updateIngredientsStackView(_ ingredients: [String]) {
         ingredientsStackView.arrangedSubviews.forEach({ ingredientsStackView.removeArrangedSubview($0) })
         for ingredient in ingredients {
             let ingredienceLabel = UILabel()
@@ -337,9 +337,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-    // MARK: Helper methods
+    // MARK: Internal Helpers
     
-    func updateScoreView(_ score: Double) {
+    private func updateScoreView(_ score: Double) {
         scoreWrapperView.subviews.forEach({ $0.removeFromSuperview() })
         var prevIcon: UIImageView?
         let rounded = Int(score.rounded())
@@ -368,13 +368,13 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func showSubviews() {
+    private func showSubviews() {
         UIView.animate(withDuration: 0.3, animations: {
             self.scrollView.alpha = 1.0
         })
     }
     
-    func hideSubviews() {
+    private func hideSubviews() {
         UIView.animate(withDuration: 0.0, animations: {
             self.scrollView.alpha = 0.0
         })

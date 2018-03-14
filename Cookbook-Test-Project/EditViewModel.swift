@@ -29,6 +29,12 @@ class EditViewModel {
     let info = MutableProperty<String>("")
     let description = MutableProperty<String>("")
     let ingredients = MutableProperty<[String]>([])
+    let recipeNameLabelTitle = "edit.recipeName.title".localized.uppercased()
+    let recipeInfoTextLabelTitle = "edit.openingText.title".localized.uppercased()
+    let recipeIngredientsLabelTitle = "edit.ingredients.title".localized.uppercased()
+    let recipeIngredientAddButtonTitle = "+ " + "edit.addIngredientButton.title".localized.uppercased()
+    let recipeDescriptionLabelTitle = "edit.description.title".localized.uppercased()
+    let recipeDurationLabelTitle = "edit.duration.title".localized
     
     private let alertMessageObserver: Signal<RequestError, NoError>.Observer
     

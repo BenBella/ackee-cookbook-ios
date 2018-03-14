@@ -34,7 +34,7 @@ class RecipeItemCell: UITableViewCell {
         makeConstraints()
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         let superview = self.contentView
         
         superview.addSubview(recipeImageView)

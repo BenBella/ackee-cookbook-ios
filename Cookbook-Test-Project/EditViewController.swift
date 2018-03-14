@@ -102,7 +102,8 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                     self?.showErrorAlert(error: error)
                 } else {
                     self?.clearContent()
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.closeKeyboard(self as Any)
+                    self?.splitViewController?.toggleMasterView()
                 }
             case .completed, .interrupted:
                 break
@@ -124,6 +125,13 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                 break
             }
         }
+        
+        recipeNameLabel.text = viewModel.recipeNameLabelTitle
+        infoTextLabel.text = viewModel.recipeInfoTextLabelTitle
+        ingredientsLabel.text = viewModel.recipeIngredientsLabelTitle
+        ingredientAddButton.setTitle(viewModel.recipeIngredientAddButtonTitle, for: .normal)
+        descriptionLabel.text = viewModel.recipeDescriptionLabelTitle.localized.uppercased()
+        durationLabel.text = viewModel.recipeDurationLabelTitle.localized
     }
     
     // MARK: Layout
@@ -144,7 +152,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         let inset = EditViewController.inset
         
         scrollView.addSubview(recipeNameLabel)
-        recipeNameLabel.text = "edit.recipeName.title".localized.uppercased()
         recipeNameLabel.textColor = UIColor.theme.blue
         recipeNameLabel.font = UIFont.theme.textBold
         recipeNameLabel.numberOfLines = 0
@@ -173,7 +180,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         scrollView.addSubview(infoTextLabel)
-        infoTextLabel.text = "edit.openingText.title".localized.uppercased()
         infoTextLabel.textColor = UIColor.theme.blue
         infoTextLabel.font = UIFont.theme.textBold
         infoTextLabel.numberOfLines = 0
@@ -205,7 +211,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         scrollView.addSubview(ingredientsLabel)
-        ingredientsLabel.text = "edit.ingredients.title".localized.uppercased()
         ingredientsLabel.textColor = UIColor.theme.blue
         ingredientsLabel.font = UIFont.theme.textBold
         ingredientsLabel.numberOfLines = 0
@@ -229,7 +234,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         scrollView.addSubview(ingredientAddButton)
-        ingredientAddButton.setTitle("+ " + "edit.addIngredientButton.title".localized.uppercased(), for: .normal)
         ingredientAddButton.setTitleColor(UIColor.theme.pink, for: .normal)
         createViewBorder(for: self.ingredientAddButton, flag: false, color: UIColor.theme.pink)
         ingredientAddButton.snp.makeConstraints { (make) -> Void in
@@ -239,7 +243,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         scrollView.addSubview(descriptionLabel)
-        descriptionLabel.text = "edit.description.title".localized.uppercased()
         descriptionLabel.textColor = UIColor.theme.blue
         descriptionLabel.font = UIFont.theme.textBold
         descriptionLabel.numberOfLines = 0
@@ -272,7 +275,6 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         scrollView.addSubview(durationLabel)
-        durationLabel.text = "edit.duration.title".localized
         durationLabel.numberOfLines = 1
         durationLabel.textColor = UIColor.theme.darkGray
         durationLabel.font = UIFont.theme.text
@@ -311,6 +313,9 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     // MARK: - UI behaviour setup
     
     func configureUI() {
+        
+        edgesForExtendedLayout = []
+        
         let validRecipeNameSignal = nameTextFieldValidation(for: recipeNameTextField)
         createViewBorder(for: self.recipeNameTextField, flag: false, color: UIColor.theme.pink)
         validRecipeNameSignal.observeValues { [unowned self] flag in
@@ -494,9 +499,9 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         return true
     }
     
-    // MARK: Helper methods
+    // MARK: Internal Helpers
     
-    func clearContent() {
+    private func clearContent() {
         recipeNameTextField.text = ""
         createViewBorder(for: recipeNameTextField, flag: false, color: UIColor.theme.pink)
         infoTextView.text = ""

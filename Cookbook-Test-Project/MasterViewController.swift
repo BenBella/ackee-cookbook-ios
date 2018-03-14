@@ -44,7 +44,7 @@ class MasterViewController: UITableViewController {
     
     // MARK: - Bindings
     
-    func bindViewModel() {
+    private func bindViewModel() {
         self.title = viewModel.title
         
         viewModel.active <~ isActive()
@@ -78,7 +78,7 @@ class MasterViewController: UITableViewController {
     
     // MARK: - UI behaviour setup
     
-    func configureUI() {
+    private func configureUI() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 140
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonItemPressed(_:)))
