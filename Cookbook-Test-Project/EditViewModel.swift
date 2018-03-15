@@ -12,10 +12,32 @@ import ReactiveCocoa
 import Unbox
 import Result
 
-class EditViewModel {
+protocol EditViewModeling {
+    
+    var alertMessageSignal: Signal<RequestError, NoError> { get }
+    
+    var title: String { get }
+    var inputIsValid: MutableProperty<Bool> { get }
+    var name: MutableProperty<String> { get }
+    var duration: MutableProperty<Int> { get }
+    var score: MutableProperty<Double> { get }
+    var info: MutableProperty<String> { get }
+    var description: MutableProperty<String> { get }
+    var ingredients: MutableProperty<[String]> { get }
+    var recipeNameLabelTitle: String { get }
+    var recipeInfoTextLabelTitle: String { get }
+    var recipeIngredientsLabelTitle: String { get }
+    var recipeIngredientAddButtonTitle: String { get }
+    var recipeDescriptionLabelTitle: String { get }
+    var recipeDurationLabelTitle: String { get }
+    
+    var saveAction: Action<Void, Any?, RequestError> { get set }
+}
+
+class EditViewModel : EditViewModeling {
     
     // MARK: - Dependencies
-    var api: CookbookAPIService
+    var api: CookbookAPIServicing
     
     // MARK: - Output
     let title = "edit.create.title".localized
@@ -54,7 +76,7 @@ class EditViewModel {
         
     // MARK: - Lifecycle
     
-    init(api: CookbookAPIService) {
+    init(api: CookbookAPIServicing) {
         self.api = api
         
         let (alertMessageSignal, alertMessageObserver) = Signal<RequestError, NoError>.pipe()

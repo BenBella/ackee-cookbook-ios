@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
     private var evaluateButtons = [UIButton]()
     private var evaluateAction: CocoaAction<Any>?
     
-    var viewModel: DetailViewModel?
+    var viewModel: DetailViewModeling?
     
     static let inset = 20
     
@@ -65,7 +65,7 @@ class DetailViewController: UIViewController {
             return
         }
         
-        self.title = viewModel?.title
+        self.title = viewModel!.title
         
         viewModel!.active <~ isActive()
         

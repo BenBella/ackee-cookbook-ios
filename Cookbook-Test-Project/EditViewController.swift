@@ -10,9 +10,14 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 import SnapKit
+import Swinject
 import enum Result.NoError
 
-class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+protocol EditViewControlling {
+    
+}
+
+class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, EditViewControlling {
 
     private let scrollView = UIScrollView()
     private let recipeNameLabel = UILabel()
@@ -39,33 +44,15 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     private var ingredientsTextFields = [UITextField]()
     private var ingredients = MutableProperty<[String]>([])
     
-    private var saveAction: CocoaAction<Any>
-    private let saveButtonItem: UIBarButtonItem
+    private var saveAction: CocoaAction<Any>?
+    private var saveButtonItem: UIBarButtonItem?
     private var activeField: UIView?
     private var infoShown = false
     
-    private var viewModel: EditViewModel
+    var viewModel: EditViewModeling?
     
     // MARK: Lifecycle
-    
-    init(viewModel: EditViewModel) {
-        self.viewModel = viewModel
-        self.saveAction = CocoaAction(viewModel.saveAction, { _ in return () })
-        self.saveButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .save,
-            target: self.saveAction,
-            action: CocoaAction<Any>.selector as Selector
-        )
-        
-        super.init(nibName: nil, bundle: nil)
-        
-        navigationItem.rightBarButtonItem = self.saveButtonItem
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+     
     deinit {
     }
     
@@ -85,15 +72,19 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     // MARK: - Bindings
     
     func bindViewModel() {
-        self.title = viewModel.title
+        guard viewModel != nil else {
+            return
+        }
         
-        viewModel.name <~ recipeNameTextField.reactive.textValues.skipNil().producer
-        viewModel.info <~ infoTextView.reactive.textValues.skipNil().producer
-        viewModel.description <~ descriptionTextView.reactive.textValues.skipNil().producer
-        viewModel.ingredients <~ ingredients.producer
+        self.title = viewModel!.title
+        
+        viewModel!.name <~ recipeNameTextField.reactive.textValues.skipNil().producer
+        viewModel!.info <~ infoTextView.reactive.textValues.skipNil().producer
+        viewModel!.description <~ descriptionTextView.reactive.textValues.skipNil().producer
+        viewModel!.ingredients <~ ingredients.producer
         //viewModel.duration <~ durationTextField.reactive.textValues.skipNil().map{Int($0)}.skipNil().producer
         
-        viewModel.saveAction.events.observe(on: UIScheduler()).observe { [weak self]  event in
+        viewModel!.saveAction.events.observe(on: UIScheduler()).observe { [weak self]  event in
             switch event {
             case let .failed(error):
                 self?.showErrorAlert(error: error)
@@ -110,12 +101,12 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             }
         }
         
-        viewModel.saveAction.isExecuting.signal.observe(on: UIScheduler()).observe { [weak self] signal in
-            self?.saveButtonItem.isEnabled = !(signal.value ?? true)
+        viewModel!.saveAction.isExecuting.signal.observe(on: UIScheduler()).observe { [weak self] signal in
+            self?.saveButtonItem?.isEnabled = !(signal.value ?? true)
             UIApplication.shared.isNetworkActivityIndicatorVisible = signal.value ?? false
         }
         
-        viewModel.alertMessageSignal.observe(on: UIScheduler()).observe { [weak self] signal in
+        viewModel!.alertMessageSignal.observe(on: UIScheduler()).observe { [weak self] signal in
             switch signal {
             case let .failed(error):
                 self?.showErrorAlert(error: error)
@@ -126,12 +117,12 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             }
         }
         
-        recipeNameLabel.text = viewModel.recipeNameLabelTitle
-        infoTextLabel.text = viewModel.recipeInfoTextLabelTitle
-        ingredientsLabel.text = viewModel.recipeIngredientsLabelTitle
-        ingredientAddButton.setTitle(viewModel.recipeIngredientAddButtonTitle, for: .normal)
-        descriptionLabel.text = viewModel.recipeDescriptionLabelTitle.localized.uppercased()
-        durationLabel.text = viewModel.recipeDurationLabelTitle.localized
+        recipeNameLabel.text = viewModel!.recipeNameLabelTitle
+        infoTextLabel.text = viewModel!.recipeInfoTextLabelTitle
+        ingredientsLabel.text = viewModel!.recipeIngredientsLabelTitle
+        ingredientAddButton.setTitle(viewModel!.recipeIngredientAddButtonTitle, for: .normal)
+        descriptionLabel.text = viewModel!.recipeDescriptionLabelTitle.localized.uppercased()
+        durationLabel.text = viewModel!.recipeDurationLabelTitle.localized
     }
     
     // MARK: Layout
@@ -313,8 +304,20 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     // MARK: - UI behaviour setup
     
     func configureUI() {
+        guard viewModel != nil else {
+            return
+        }
         
         edgesForExtendedLayout = []
+        
+        self.saveAction = CocoaAction(viewModel!.saveAction, { _ in return () })
+        self.saveButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .save,
+            target: self.saveAction,
+            action: CocoaAction<Any>.selector as Selector
+        )
+        
+        navigationItem.rightBarButtonItem = self.saveButtonItem
         
         let validRecipeNameSignal = nameTextFieldValidation(for: recipeNameTextField)
         createViewBorder(for: self.recipeNameTextField, flag: false, color: UIColor.theme.pink)
@@ -372,17 +375,17 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         }
         
         Signal.combineLatest(validRecipeNameSignal, validInfoTextSignal, validStackViewSignal, validDescriptionTextSignal, validDurationTextSignal).map{ $0 && $1 && $2 && $3 && $4 }.observeValues {  flag in
-            self.saveButtonItem.isEnabled = flag
-            self.viewModel.inputIsValid.swap(flag)
+            self.saveButtonItem?.isEnabled = flag
+            self.viewModel!.inputIsValid.swap(flag)
             if (flag == true) {
-                self.viewModel.duration.swap(Int(self.durationTextField.text!)!)
+                self.viewModel!.duration.swap(Int(self.durationTextField.text!)!)
                 self.ingredients.swap(self.ingredientsTextFields.map{ $0.text ?? ""})
             }
         }
         
         registerForKeyboardNotifications()
         
-        self.saveButtonItem.isEnabled = false
+        self.saveButtonItem?.isEnabled = false
     }
     
     func textViewValidation(for view: UITextView) -> Signal<Bool, NoError> {
@@ -512,7 +515,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         createViewBorder(for: durationTextField, flag: false, color: UIColor.theme.pink)
         
         ingredientsStackView.subviews.forEach { $0.removeFromSuperview() }
-        saveButtonItem.isEnabled = false
+        saveButtonItem?.isEnabled = false
         scrollView.setNeedsLayout()
     }
     

@@ -7,6 +7,9 @@ PODS:
   - Reqres (2.1.1)
   - Result (3.2.4)
   - SnapKit (4.0.0)
+  - Swinject (2.2.0)
+  - SwinjectStoryboard (1.1.2):
+    - Swinject (~> 2.1)
   - Unbox (2.5.0)
 
 DEPENDENCIES:
@@ -15,6 +18,8 @@ DEPENDENCIES:
   - ReactiveSwift (~> 3.1.0)
   - Reqres (~> 2.1.1)
   - SnapKit (~> 4.0)
+  - Swinject (~> 2.2)
+  - SwinjectStoryboard (~> 1.1)
   - Unbox (~> 2.5)
 
 SPEC CHECKSUMS:
@@ -24,8 +29,10 @@ SPEC CHECKSUMS:
   Reqres: d532d6fddbede6d688552a7f2535fb0102fc4aca
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  Swinject: 4ca48bca7de5f398229a26abe1ac902b9f3ee541
+  SwinjectStoryboard: 92e75763c3299cdf627bef98a5180dc894864336
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
 
-PODFILE CHECKSUM: 903f93bc0e7adf7b4eb77fc919839eb5318d75e6
+PODFILE CHECKSUM: 4548d15e62905754a03e0cc8a2362bbe98e96206
 
 COCOAPODS: 1.4.0

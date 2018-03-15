@@ -12,23 +12,53 @@ import ReactiveCocoa
 import Unbox
 import Result
 
-class DetailViewModel {
+protocol DetailViewModeling {
     
+    var recipeId: String? { set get }
+    var active: MutableProperty<Bool> { get }
+    var refreshSignal: Signal<Void, NoError> { get }
+    var refreshObserver: Signal<Void, NoError>.Observer { get }
+    
+    var title: String { get }
+    var item: MutableProperty<RecipeDetail> { get }
+    var contentChangesSignal: Signal<Bool, NoError> { get }
+    var isLoading: MutableProperty<Bool> { get }
+    var alertMessageSignal: Signal<RequestError, NoError> { get }
+    var recipeIngredientsLabelTitle: String { get }
+    var recipeDescriptionLabelTitle: String { get }
+    var recipeScoreEvaluateLabelTitle: String { get }
+    var recipeName: String { get }
+    var recipeDuration: Int { get }
+    var recipeScore: Double { get }
+    var recipeInfo: String { get }
+    var recipeDescription: String { get }
+    var recipeIngredients: [String] { get }
+    
+    var evaluateAction: Action<Int, Any?, RequestError> { get set }
+}
+
+class DetailViewModel : DetailViewModeling {
+
     // MARK: - Dependencies
-    var api: CookbookAPIService
+    var api: CookbookAPIServicing
     
     // MARK: - Input
-    var recipeId: String?
+    var recipeId: String? {
+        didSet {
+    
+            //setup()
+        }
+    }
     let active = MutableProperty(false)
-    let refreshSignal: Signal<Void, NoError>
-    let refreshObserver: Signal<Void, NoError>.Observer
+    var refreshSignal: Signal<Void, NoError>
+    var refreshObserver: Signal<Void, NoError>.Observer
     
     // MARK: - Output
     let title = "detail.title".localized
-    var item: MutableProperty<RecipeDetail>? = MutableProperty(RecipeDetail())
-    let contentChangesSignal: Signal<Bool, NoError>
-    let isLoading: MutableProperty<Bool>
-    let alertMessageSignal: Signal<RequestError, NoError>
+    var item: MutableProperty<RecipeDetail> = MutableProperty(RecipeDetail())
+    var contentChangesSignal: Signal<Bool, NoError>
+    var isLoading: MutableProperty<Bool>
+    var alertMessageSignal: Signal<RequestError, NoError>
     let recipeIngredientsLabelTitle = "detail.ingredients.title".localized
     let recipeDescriptionLabelTitle =  "detail.description.title".localized
     let recipeScoreEvaluateLabelTitle = "detail.rate.title".localized
@@ -39,16 +69,18 @@ class DetailViewModel {
     var recipeDescription = ""
     var recipeIngredients = [String]()
     
-    private let contentChangesObserver: Signal<Bool, NoError>.Observer
-    private let alertMessageObserver: Signal<RequestError, NoError>.Observer
+    private var contentChangesObserver: Signal<Bool, NoError>.Observer
+    private var alertMessageObserver: Signal<RequestError, NoError>.Observer
     private var recipeDetail: RecipeDetail? {
         didSet {
-            recipeName = recipeDetail!.name
-            recipeDuration = recipeDetail!.duration
-            recipeScore = recipeDetail!.score
-            recipeInfo = recipeDetail!.info
-            recipeDescription = recipeDetail!.description
-            recipeIngredients = recipeDetail!.ingredients
+            if let recipeDetail = recipeDetail {
+                recipeName = recipeDetail.name
+                recipeDuration = recipeDetail.duration
+                recipeScore = recipeDetail.score
+                recipeInfo = recipeDetail.info
+                recipeDescription = recipeDetail.description
+                recipeIngredients = recipeDetail.ingredients
+            }
         }
     }
     
@@ -64,10 +96,9 @@ class DetailViewModel {
     
     // MARK: - Lifecycle
     
-    init(api: CookbookAPIService, recipeId: String) {
+    init(api: CookbookAPIServicing) {
         self.api = api
-        self.recipeId = recipeId
-        
+
         let (refreshSignal, refreshObserver) = Signal<Void, NoError>.pipe()
         self.refreshObserver = refreshObserver
         self.refreshSignal = refreshSignal
@@ -85,10 +116,10 @@ class DetailViewModel {
         
         // Trigger refresh when view becomes active
         active.producer
-            .filter { $0 }
+            .filter { $0 && self.recipeId != nil }
             .map { _ in () }
             .start(refreshObserver)
-        
+ 
         SignalProducer<Void, NoError>(refreshSignal)
             .on(value: { [unowned self] _ in self.isLoading.swap(true)} )
             .flatMap(FlattenStrategy.latest) { [unowned self] _ in
@@ -106,5 +137,4 @@ class DetailViewModel {
                 }
             })
     }
-        
 }

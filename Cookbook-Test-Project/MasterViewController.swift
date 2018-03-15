@@ -9,14 +9,14 @@
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
+import Swinject
+import SwinjectStoryboard
 
 class MasterViewController: UITableViewController {
 
     private let pullToRefreshControl = UIRefreshControl()
     
-    var detailViewController: DetailViewController? = nil
-
-    var viewModel = MasterViewModel(api: CookbookAPIService(network: Network(), authHandler: nil))
+    var viewModel: MasterViewModeling?
     
     // MARK: - Lifecycle
     
@@ -45,11 +45,14 @@ class MasterViewController: UITableViewController {
     // MARK: - Bindings
     
     private func bindViewModel() {
-        self.title = viewModel.title
+        guard viewModel != nil else {
+            return
+        }
+        self.title = viewModel!.title
         
-        viewModel.active <~ isActive()
+        viewModel!.active <~ isActive()
         
-        viewModel.contentChangesSignal.observe(on: UIScheduler()).observe { [unowned self]  signal in
+        viewModel!.contentChangesSignal.observe(on: UIScheduler()).observe { [unowned self]  signal in
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: signal.value!.deletions, with: .automatic)
             self.tableView.reloadRows(at: signal.value!.modifications, with: .automatic)
@@ -60,11 +63,11 @@ class MasterViewController: UITableViewController {
             }
         }
         
-        viewModel.isLoading.producer.observe(on: UIScheduler()).start { isLoading in
+        viewModel!.isLoading.producer.observe(on: UIScheduler()).start { isLoading in
             UIApplication.shared.isNetworkActivityIndicatorVisible = isLoading.value ?? false
         }
  
-        viewModel.alertMessageSignal.observe(on: UIScheduler()).observe { [unowned self] signal in
+        viewModel!.alertMessageSignal.observe(on: UIScheduler()).observe { [unowned self] signal in
             switch signal {
             case let .failed(error):
                 self.showErrorAlert(error: error)
@@ -83,12 +86,7 @@ class MasterViewController: UITableViewController {
         tableView.estimatedRowHeight = 140
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonItemPressed(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(openButtonItemPressed(_:)))
-        
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-        }
-        
+                
         if #available(iOS 10.0, *) {
             tableView.refreshControl = pullToRefreshControl
         } else {
@@ -96,7 +94,7 @@ class MasterViewController: UITableViewController {
         }
         
         pullToRefreshControl.reactive.controlEvents(.valueChanged).observeValues { [unowned self] _ in
-            self.viewModel.refreshObserver.send(value: ())
+            self.viewModel?.refreshObserver.send(value: ())
         }
     }
     
@@ -114,7 +112,12 @@ class MasterViewController: UITableViewController {
     
     @objc
     func openButtonItemPressed(_ sender: Any) {
-        let navigationViewController = UINavigationController(rootViewController: EditViewController(viewModel: viewModel.editViewModel()))
+        guard viewModel != nil else {
+            return
+        }
+        let storyboard = SwinjectStoryboard.create(name: "Main", bundle: nil)
+        let editViewController = storyboard.instantiateViewController(withIdentifier: "EditViewController")
+        let navigationViewController = UINavigationController(rootViewController: editViewController)
         navigationViewController.topViewController?.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         navigationViewController.topViewController?.navigationItem.leftItemsSupplementBackButton = true
         self.splitViewController?.showDetailViewController(navigationViewController, sender: nil)
@@ -123,12 +126,18 @@ class MasterViewController: UITableViewController {
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {   
+        if segue.identifier == "showDetail" {
+            guard viewModel != nil else {
+                return
+            }
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.viewModel = viewModel.detailViewModelForRecipeAt(indexPath)
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                if let detailViewModel = SwinjectStoryboard.defaultContainer.resolve(DetailViewModeling.self) {
+                    controller.viewModel = detailViewModel
+                    controller.viewModel?.recipeId = viewModel!.recipeIdAt(indexPath)
+                    controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+                    controller.navigationItem.leftItemsSupplementBackButton = true
+                }
             }
         }
     }
@@ -136,18 +145,20 @@ class MasterViewController: UITableViewController {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        return viewModel?.numberOfSections() ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfMatchesInSection(section: section)
+        return viewModel?.numberOfMatchesInSection(section: section) ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RecipeItemCell
-        cell.updateName(viewModel.recipeNameAt(indexPath))
-        cell.updateDuration(viewModel.recipeDurationAt(indexPath))
-        cell.updateScoreView(viewModel.recipeScoreAt(indexPath))
+        if let viewModel = viewModel {
+            cell.updateName(viewModel.recipeNameAt(indexPath))
+            cell.updateDuration(viewModel.recipeDurationAt(indexPath))
+            cell.updateScoreView(viewModel.recipeScoreAt(indexPath))
+        }
         return cell
     }
 
@@ -158,7 +169,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            viewModel.deleteAction.apply(indexPath).start()
+            viewModel?.deleteAction.apply(indexPath).start()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }

@@ -24,6 +24,7 @@
 		8E73ABC1204FEDE800F0319B /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73ABC0204FEDE800F0319B /* EditViewModel.swift */; };
 		8E73ABC3204FEE9500F0319B /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73ABC2204FEE9500F0319B /* EditViewController.swift */; };
 		8E8D3FCA205911870028E42C /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8D3FC9205911870028E42C /* SplitViewController.swift */; };
+		8EDD3AE1205A9F6C0016E64B /* SwinjectStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDD3AE0205A9F6C0016E64B /* SwinjectStoryboard.swift */; };
 		8EE57E9420580A80005877DE /* EvaluateParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE57E9320580A80005877DE /* EvaluateParameters.swift */; };
 		8EE57E9620586537005877DE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE57E9520586537005877DE /* Int.swift */; };
 		B4B815031E27831800C8A24B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B815021E27831800C8A24B /* AppDelegate.swift */; };
@@ -56,6 +57,7 @@
 		8E73ABC0204FEDE800F0319B /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		8E73ABC2204FEE9500F0319B /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		8E8D3FC9205911870028E42C /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		8EDD3AE0205A9F6C0016E64B /* SwinjectStoryboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwinjectStoryboard.swift; sourceTree = "<group>"; };
 		8EE57E9320580A80005877DE /* EvaluateParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateParameters.swift; sourceTree = "<group>"; };
 		8EE57E9520586537005877DE /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		9C9E934CE6D3099D02ED5692 /* Pods-Cookbook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cookbook.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cookbook/Pods-Cookbook.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				8E6A20EB205538CD0037DB87 /* ViewController.swift */,
 				8EE57E9520586537005877DE /* Int.swift */,
 				8E8D3FC9205911870028E42C /* SplitViewController.swift */,
+				8EDD3AE0205A9F6C0016E64B /* SwinjectStoryboard.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -281,6 +284,8 @@
 				"${BUILT_PRODUCTS_DIR}/Reqres/Reqres.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework",
+				"${BUILT_PRODUCTS_DIR}/SwinjectStoryboard/SwinjectStoryboard.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -291,6 +296,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reqres.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swinject.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwinjectStoryboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +356,7 @@
 				8E4529ED204C595000F3C0EC /* DetailViewModel.swift in Sources */,
 				8E73ABC1204FEDE800F0319B /* EditViewModel.swift in Sources */,
 				8E4FC3A02052DFED008B21CD /* Changeset.swift in Sources */,
+				8EDD3AE1205A9F6C0016E64B /* SwinjectStoryboard.swift in Sources */,
 				8E4FC3A22052E0D4008B21CD /* Array.swift in Sources */,
 				8E3B4822204D5130005842C0 /* RecipeItemCell.swift in Sources */,
 				8E5C4FA420518360008C308E /* Color.swift in Sources */,

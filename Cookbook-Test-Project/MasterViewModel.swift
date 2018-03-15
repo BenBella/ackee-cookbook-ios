@@ -12,12 +12,35 @@ import ReactiveCocoa
 import Unbox
 import Result
 
-class MasterViewModel {
+protocol MasterViewModeling {
     
     typealias RecipeChangeset = Changeset<Recipe>
     
+    var active: MutableProperty<Bool> { get }
+    var refreshSignal: Signal<Void, NoError> { get }
+    var refreshObserver: Signal<Void, NoError>.Observer { get }
+    
+    var list: MutableProperty<[Recipe]> { get }
+    var title: String { get }
+    var contentChangesSignal: Signal<RecipeChangeset, NoError> { get }
+    var isLoading: MutableProperty<Bool> { get }
+    var alertMessageSignal: Signal<RequestError, NoError> { get }
+    
+    var deleteAction: Action<IndexPath, Any?, RequestError> { get }
+
+    func numberOfSections() -> Int
+    func numberOfMatchesInSection(section: Int) -> Int
+    func recipeIdAt(_ indexPath: IndexPath) -> String
+    func recipeNameAt(_ indexPath: IndexPath) -> String
+    func recipeDurationAt(_ indexPath: IndexPath) -> Int
+    func recipeScoreAt(_ indexPath: IndexPath) -> Double
+    func editViewModel() -> EditViewModel
+}
+
+class MasterViewModel : MasterViewModeling {
+    
     // MARK: - Dependencies
-    var api: CookbookAPIService
+    var api: CookbookAPIServicing
     
     // MARK: - Input
     let active = MutableProperty(false)
@@ -45,7 +68,7 @@ class MasterViewModel {
     
     // MARK: - Lifecycle
     
-    init(api: CookbookAPIService) {
+    init(api: CookbookAPIServicing) {
         self.api = api
         
         let (refreshSignal, refreshObserver) = Signal<Void, NoError>.pipe()
@@ -132,13 +155,6 @@ class MasterViewModel {
     func recipeScoreAt(_ indexPath: IndexPath) -> Double {
         let recipe = recipeAt(indexPath)
         return recipe.score
-    }
-    
-    // MARK: View Models
-
-    func detailViewModelForRecipeAt(_ indexPath: IndexPath) -> DetailViewModel {
-        let recipe = recipeAt(indexPath)
-        return DetailViewModel(api: self.api, recipeId:recipe.id)
     }
     
     func editViewModel() -> EditViewModel {
