@@ -94,7 +94,7 @@ class MasterViewModel : MasterViewModeling {
             .map { _ in () }
             .start(refreshObserver)
         
-        // Trigger refresh after deleting a match
+        // Trigger refresh after deleting a recipe
         deleteAction.values
             .filter { $0 != nil }
             .map { _ in () }

@@ -9,15 +9,28 @@ inhibit_all_warnings!
 
 target 'Cookbook' do
 
-pod 'ReactiveCocoa', '~> 7.1.0'
-pod 'ReactiveSwift', '~> 3.1.0'
-pod 'SnapKit', '~> 4.0'
-pod 'Alamofire', '~> 4.0'
-pod 'Reqres', '~> 2.1.1'
-pod 'Unbox', '~> 2.5'
-pod 'Swinject', '~> 2.2'
-pod 'SwinjectStoryboard', '~> 1.1'
+    pod 'ReactiveCocoa', '~> 7.1.0'
+    pod 'ReactiveSwift', '~> 3.1.0'
+    pod 'SnapKit', '~> 4.0'
+    pod 'Alamofire', '~> 4.0'
+    pod 'Reqres', '~> 2.1.1'
+    pod 'Unbox', '~> 2.5'
+    pod 'Swinject', '~> 2.2'
+    pod 'SwinjectStoryboard', '~> 1.1'
+    pod 'SwiftLint'
 
+end
+
+target 'CookbookTests' do
+    
+    inherit! :search_paths
+    pod 'Quick', '~> 1.2'
+    pod 'Nimble', '~> 7.0'
+    pod 'Mockingjay', '~> 2.0'
+    pod 'Swinject', '~> 2.2'
+    pod 'ReactiveCocoa', '~> 7.1.0'
+    pod 'ReactiveSwift', '~> 3.1.0'
+    
 end
 
 post_install do |installer|

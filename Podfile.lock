@@ -1,5 +1,14 @@
 PODS:
   - Alamofire (4.7.0)
+  - Mockingjay (2.0.1):
+    - Mockingjay/Core (= 2.0.1)
+    - Mockingjay/XCTest (= 2.0.1)
+  - Mockingjay/Core (2.0.1):
+    - URITemplate (~> 2.0)
+  - Mockingjay/XCTest (2.0.1):
+    - Mockingjay/Core
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
   - ReactiveCocoa (7.1.0):
     - ReactiveSwift (~> 3.1)
   - ReactiveSwift (3.1.0):
@@ -7,32 +16,43 @@ PODS:
   - Reqres (2.1.1)
   - Result (3.2.4)
   - SnapKit (4.0.0)
+  - SwiftLint (0.25.0)
   - Swinject (2.2.0)
   - SwinjectStoryboard (1.1.2):
     - Swinject (~> 2.1)
   - Unbox (2.5.0)
+  - URITemplate (2.0.3)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - Mockingjay (~> 2.0)
+  - Nimble (~> 7.0)
+  - Quick (~> 1.2)
   - ReactiveCocoa (~> 7.1.0)
   - ReactiveSwift (~> 3.1.0)
   - Reqres (~> 2.1.1)
   - SnapKit (~> 4.0)
+  - SwiftLint
   - Swinject (~> 2.2)
   - SwinjectStoryboard (~> 1.1)
   - Unbox (~> 2.5)
 
 SPEC CHECKSUMS:
   Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
+  Mockingjay: 11a621880d2887f1775bdcf824341eb68f218450
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   ReactiveCocoa: 105ad96f6b8711f1ee7d165fc96587479298053b
   ReactiveSwift: 5b26d2e988fe0eed2daf48c4054d1de74db50184
   Reqres: d532d6fddbede6d688552a7f2535fb0102fc4aca
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftLint: e14651157288e9e01d6e1a71db7014fb5744a8ea
   Swinject: 4ca48bca7de5f398229a26abe1ac902b9f3ee541
   SwinjectStoryboard: 92e75763c3299cdf627bef98a5180dc894864336
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+  URITemplate: ace0c4c46dcf8afe6e89b4060621852886b15c3b
 
-PODFILE CHECKSUM: 4548d15e62905754a03e0cc8a2362bbe98e96206
+PODFILE CHECKSUM: 68a2bdb6998f10624c565dc4acdc48331312177f
 
 COCOAPODS: 1.4.0
