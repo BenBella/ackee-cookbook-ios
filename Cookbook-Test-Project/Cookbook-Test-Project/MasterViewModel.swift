@@ -86,8 +86,6 @@ class MasterViewModel : MasterViewModeling {
         self.alertMessageSignal = alertMessageSignal
         self.alertMessageObserver = alertMessageObserver
         
-        self.api = CookbookAPIService(network: Network(), authHandler: nil)
-        
         // Trigger refresh when view becomes active
         active.producer
             .filter { $0 }

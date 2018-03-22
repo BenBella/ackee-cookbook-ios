@@ -11,13 +11,18 @@
 		2DEA4643A76FD437AF885DAE /* Pods_CookbookTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8038FDA6535FDAC7E3AA2C0 /* Pods_CookbookTests.framework */; };
 		8E312666205BCEB300C86B61 /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E312665205BCEB300C86B61 /* NetworkSpec.swift */; };
 		8E5C4FA1205182FD008C308E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C4FA0205182FD008C308E /* Theme.swift */; };
+		8E71F475206232AA00397B47 /* MasterViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */; };
+		8E71F47A20625E4E00397B47 /* StubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F47820625D5C00397B47 /* StubAPIService.swift */; };
+		8E71F47B20625F3F00397B47 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E71F47620625C0E00397B47 /* recipe.json */; };
+		8E752E3A206261050093488A /* CookbookAPIServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E752E39206261050093488A /* CookbookAPIServicing.swift */; };
+		8E752E3C20628C060093488A /* DetailViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E752E3B20628C060093488A /* DetailViewControllerSpec.swift */; };
 		8E799A352061622C008A799A /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E799A342061616E008A799A /* recipes.json */; };
 		8E799A362061622F008A799A /* StubNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A2F20615A79008A799A /* StubNetwork.swift */; };
 		8E799A3820618036008A799A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3720618036008A799A /* AppDelegate.swift */; };
 		8E799A42206180BE008A799A /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3B206180BE008A799A /* Int.swift */; };
 		8E799A43206180BE008A799A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3C206180BE008A799A /* String.swift */; };
 		8E799A44206180BE008A799A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3D206180BE008A799A /* Array.swift */; };
-		8E799A45206180BE008A799A /* SwinjectStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3E206180BE008A799A /* SwinjectStoryboard.swift */; };
+		8E799A45206180BE008A799A /* SwinjectStoryboard+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */; };
 		8E799A46206180BE008A799A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3F206180BE008A799A /* ViewController.swift */; };
 		8E799A47206180BE008A799A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A40206180BE008A799A /* Color.swift */; };
 		8E799A48206180BE008A799A /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A41206180BE008A799A /* SplitViewController.swift */; };
@@ -60,13 +65,18 @@
 		8E312665205BCEB300C86B61 /* NetworkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; };
 		8E312667205BCEB300C86B61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E5C4FA0205182FD008C308E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewControllerSpec.swift; sourceTree = "<group>"; };
+		8E71F47620625C0E00397B47 /* recipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe.json; sourceTree = "<group>"; };
+		8E71F47820625D5C00397B47 /* StubAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubAPIService.swift; sourceTree = "<group>"; };
+		8E752E39206261050093488A /* CookbookAPIServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookbookAPIServicing.swift; sourceTree = "<group>"; };
+		8E752E3B20628C060093488A /* DetailViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewControllerSpec.swift; sourceTree = "<group>"; };
 		8E799A2F20615A79008A799A /* StubNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetwork.swift; sourceTree = "<group>"; };
 		8E799A342061616E008A799A /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
 		8E799A3720618036008A799A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Cookbook-Test-Project/AppDelegate.swift"; sourceTree = "<group>"; };
 		8E799A3B206180BE008A799A /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = "Cookbook-Test-Project/Int.swift"; sourceTree = "<group>"; };
 		8E799A3C206180BE008A799A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = "Cookbook-Test-Project/String.swift"; sourceTree = "<group>"; };
 		8E799A3D206180BE008A799A /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Array.swift; path = "Cookbook-Test-Project/Array.swift"; sourceTree = "<group>"; };
-		8E799A3E206180BE008A799A /* SwinjectStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwinjectStoryboard.swift; path = "Cookbook-Test-Project/SwinjectStoryboard.swift"; sourceTree = "<group>"; };
+		8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwinjectStoryboard+Setup.swift"; sourceTree = "<group>"; };
 		8E799A3F206180BE008A799A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "Cookbook-Test-Project/ViewController.swift"; sourceTree = "<group>"; };
 		8E799A40206180BE008A799A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Color.swift; path = "Cookbook-Test-Project/Color.swift"; sourceTree = "<group>"; };
 		8E799A41206180BE008A799A /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SplitViewController.swift; path = "Cookbook-Test-Project/SplitViewController.swift"; sourceTree = "<group>"; };
@@ -142,6 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				8E312665205BCEB300C86B61 /* NetworkSpec.swift */,
+				8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */,
+				8E752E3B20628C060093488A /* DetailViewControllerSpec.swift */,
 				8E312667205BCEB300C86B61 /* Info.plist */,
 			);
 			path = CookbookTests;
@@ -189,7 +201,6 @@
 				8E799A3B206180BE008A799A /* Int.swift */,
 				8E799A41206180BE008A799A /* SplitViewController.swift */,
 				8E799A3C206180BE008A799A /* String.swift */,
-				8E799A3E206180BE008A799A /* SwinjectStoryboard.swift */,
 				8E799A3F206180BE008A799A /* ViewController.swift */,
 			);
 			name = Helpers;
@@ -198,8 +209,10 @@
 		8E799A2E20615A62008A799A /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				8E71F47620625C0E00397B47 /* recipe.json */,
 				8E799A342061616E008A799A /* recipes.json */,
 				8E799A2F20615A79008A799A /* StubNetwork.swift */,
+				8E71F47820625D5C00397B47 /* StubAPIService.swift */,
 			);
 			name = Stubs;
 			path = "Cookbook-Test-Project";
@@ -235,6 +248,7 @@
 				8E4529E4204C324800F3C0EC /* Models */,
 				B4B815161E2785B900C8A24B /* Networking */,
 				8E799A3720618036008A799A /* AppDelegate.swift */,
+				8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */,
 				8E5C4FA0205182FD008C308E /* Theme.swift */,
 				8E799A742061844C008A799A /* Info.plist */,
 				8E799A692061816C008A799A /* Assets.xcassets */,
@@ -249,6 +263,7 @@
 		B4B815161E2785B900C8A24B /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				8E752E39206261050093488A /* CookbookAPIServicing.swift */,
 				8E799A6320618138008A799A /* APIService.swift */,
 				8E799A6220618138008A799A /* CookbookAPIService.swift */,
 				8E799A6120618138008A799A /* Network.swift */,
@@ -355,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E799A352061622C008A799A /* recipes.json in Resources */,
+				8E71F47B20625F3F00397B47 /* recipe.json in Resources */,
 				8E799A6C2061816C008A799A /* Localizable.strings in Resources */,
 				8E799A78206184B6008A799A /* Main.storyboard in Resources */,
 				8E799A77206184B3008A799A /* LaunchScreen.storyboard in Resources */,
@@ -504,7 +520,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E752E3C20628C060093488A /* DetailViewControllerSpec.swift in Sources */,
 				8E312666205BCEB300C86B61 /* NetworkSpec.swift in Sources */,
+				8E71F475206232AA00397B47 /* MasterViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +537,8 @@
 				8E799A6520618138008A799A /* CookbookAPIService.swift in Sources */,
 				8E799A55206180F8008A799A /* DetailViewModel.swift in Sources */,
 				8E799A4D206180E4008A799A /* RecipeItemCell.swift in Sources */,
+				8E71F47A20625E4E00397B47 /* StubAPIService.swift in Sources */,
+				8E752E3A206261050093488A /* CookbookAPIServicing.swift in Sources */,
 				8E799A47206180BE008A799A /* Color.swift in Sources */,
 				8E799A5C20618118008A799A /* RecipeDetail.swift in Sources */,
 				8E799A42206180BE008A799A /* Int.swift in Sources */,
@@ -532,7 +552,7 @@
 				8E799A50206180E4008A799A /* DetailViewController.swift in Sources */,
 				8E799A4F206180E4008A799A /* MasterViewController.swift in Sources */,
 				8E799A44206180BE008A799A /* Array.swift in Sources */,
-				8E799A45206180BE008A799A /* SwinjectStoryboard.swift in Sources */,
+				8E799A45206180BE008A799A /* SwinjectStoryboard+Setup.swift in Sources */,
 				8E799A4E206180E4008A799A /* EditViewController.swift in Sources */,
 				8E799A362061622F008A799A /* StubNetwork.swift in Sources */,
 				8E5C4FA1205182FD008C308E /* Theme.swift in Sources */,

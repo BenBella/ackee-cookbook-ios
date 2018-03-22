@@ -68,7 +68,7 @@ class APIService {
                         DispatchQueue.main.async { // fire the authHandler in next runloop to prevent recursive events in case that authHandler completes synchronously
                             authHandler.apply(networkError).start() // sideeffect
                         }
-                })
+                    })
                     .promoteError(NetworkError.self)
                     .flatMap(.latest) { success -> SignalProducer<Any?, NetworkError> in
                         guard success else { return SignalProducer(error: networkError) }

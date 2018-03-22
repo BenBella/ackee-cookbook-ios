@@ -14,11 +14,11 @@ extension SwinjectStoryboard {
     @objc class func setup() {
         
         // Networking
-        defaultContainer.register(Networking.self) { _ in Network() }
-        defaultContainer.register(CookbookAPIServicing.self) { r in CookbookAPIService(network: r.resolve(Networking.self)!, authHandler: nil) }.inObjectScope(.container)
+        defaultContainer.register(Networking.self) { _ in Network() }.inObjectScope(.container)
+        defaultContainer.register(CookbookAPIServicing.self) { r in CookbookAPIService(network: r.resolve(Networking.self)!, authHandler: nil) }
         
         // View models
-        defaultContainer.register(MasterViewModeling.self) { r in MasterViewModel(api: r.resolve(CookbookAPIServicing.self)!) }.inObjectScope(.container)
+        defaultContainer.register(MasterViewModeling.self) { r in MasterViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
         defaultContainer.register(DetailViewModeling.self) { r in DetailViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
         defaultContainer.register(EditViewModeling.self) { r in EditViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
         

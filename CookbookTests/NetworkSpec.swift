@@ -6,7 +6,6 @@
 //  Copyright © 2018 Dominik Vesely. All rights reserved.
 //
 
-import XCTest
 import Quick
 import Nimble
 import ReactiveCocoa
@@ -24,10 +23,14 @@ class NetworkSpec: QuickSpec {
 
             // Registration for the stub network.
             container.register(Networking.self, name: "stub") { _ in StubNetwork() }
-            container.register(CookbookAPIServicing.self, name: "stub") { r in CookbookAPIService(network: r.resolve(Networking.self, name: "stub")!, authHandler: nil) }
+            container.register(CookbookAPIServicing.self, name: "stub") { r in StubAPIService(network: r.resolve(Networking.self, name: "stub")!, authHandler: nil) }
+            
+            // Registration for the live network.
+            container.register(Networking.self, name: "live") { _ in Network() }
+            container.register(CookbookAPIServicing.self, name: "live") { r in CookbookAPIService(network: r.resolve(Networking.self, name: "live")!, authHandler: nil) }
         }
         
-        it("returns recipes.") {
+        it("returns stub recipes.") {
             var recipes: [Recipe]?
             let api = container.resolve(CookbookAPIServicing.self, name: "stub")!
             _ = api.getRecipes().start( { signal in
@@ -45,13 +48,31 @@ class NetworkSpec: QuickSpec {
             })
         }
         
+        it("returns live recipes.") {
+            var recipes: [Recipe]?
+            let api = container.resolve(CookbookAPIServicing.self, name: "live")!
+            _ = api.getRecipes().start( { signal in
+                switch signal {
+                case let .failed(error):
+                    print(error)
+                case let .value(value): do {
+                    recipes = value as? [Recipe]
+                    }
+                case .completed, .interrupted:
+                    break
+                }
+            })
+            expect(recipes).toEventuallyNot(beNil(), timeout: 5)
+            expect(recipes?.count).toEventually(beGreaterThan(0), timeout: 5)
+        }
+        
         it("fills recipes data.") {
             var recipes: [Recipe]?
             let api = container.resolve(CookbookAPIServicing.self, name: "stub")!
             _ = api.getRecipes().start( { signal in
                 switch signal {
-                case .failed(_):
-                    break
+                case let .failed(error):
+                    print(error)
                 case let .value(value): do {
                     recipes = value as? [Recipe]
                     expect(recipes?[0].id).toEventually(equal("5a9ef37f76925d1000638085"))
