@@ -127,7 +127,7 @@ class DetailViewController: UIViewController {
         }
         
         self.evaluateAction = CocoaAction(viewModel!.evaluateAction, { sender in
-            // swiftlint:disable force_cast
+            // swiftlint:disable:next force_cast
             return (sender as! UIButton).tag }
         )
         

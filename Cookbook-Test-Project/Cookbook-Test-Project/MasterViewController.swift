@@ -131,7 +131,7 @@ class MasterViewController: UITableViewController {
                 return
             }
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                // swiftlint:disable force_cast
+                // swiftlint:disable:next force_cast
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 if let detailViewModel = SwinjectStoryboard.defaultContainer.resolve(DetailViewModeling.self) {
                     controller.viewModel = detailViewModel
@@ -154,7 +154,7 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RecipeItemCell
         if let viewModel = viewModel {
             cell.updateName(viewModel.recipeNameAt(indexPath))

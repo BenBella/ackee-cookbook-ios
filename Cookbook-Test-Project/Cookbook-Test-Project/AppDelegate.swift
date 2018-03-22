@@ -18,8 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.        
         Theme.current.setupAppearance()
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let splitViewController = self.window!.rootViewController as! UISplitViewController
+        // swiftlint:disable:next force_cast
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self

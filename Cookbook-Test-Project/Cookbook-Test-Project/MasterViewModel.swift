@@ -112,6 +112,7 @@ class MasterViewModel: MasterViewModeling {
                 // swiftlint:disable force_cast
                 let oldRecipes = signal.value!.0 as! [Recipe]
                 let newRecipes = signal.value!.1 as! [Recipe]
+                // swiftlint:enable force_cast
                 self.recipes = newRecipes
                 let changeset = Changeset(
                     oldItems: oldRecipes,

@@ -25,14 +25,14 @@ class CookbookAPIService: APIService, CookbookAPIServicing {
     internal func getRecipes() -> SignalProducer<Any?, RequestError> {
         return self.request("recipes")
             .mapError { .network($0) }
-            // swiftlint:disable force_cast
+            // swiftlint:disable:next force_cast
             .map { Recipe.unboxMany(recipes: $0 as! [JSONObject]) }
     }
 
     internal func getRecipeDetail(id: String) -> SignalProducer<Any?, RequestError> {
         return self.request("recipes/" + id)
             .mapError { .network($0) }
-            // swiftlint:disable force_cast
+            // swiftlint:disable:next force_cast
             .map { (try? unbox(dictionary: $0 as! JSONObject) as RecipeDetail) ?? RecipeDetail() }
     }
     

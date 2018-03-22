@@ -18,7 +18,7 @@ struct NetworkError: Error {
 }
 
 protocol Networking {
-    // swiftlint:disable function_parameter_count
+    // swiftlint:disable:next function_parameter_count
     func request(_ url: String, method: Alamofire.HTTPMethod, parameters: [String: Any]?, encoding: ParameterEncoding, headers: [String: String]?, useDisposables: Bool) -> SignalProducer<Any?, NetworkError>
 }
 
@@ -41,7 +41,7 @@ class Network: Networking {
                     case (_, .some(let e)):
                         sink.send(error: NetworkError(error: e as NSError, request: request, response: response))
                     case (.some(let d), _):
-                        // swiftlint:disable todo
+                        // swiftlint:disable:next todo
                         // TODO: Should be discussed with a backend developer, there could be nicer way how to handle delete action.
                         if request?.httpMethod == "DELETE" && response?.statusCode == 204 {
                             sink.send(value: true)

@@ -448,7 +448,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     @objc
     func adjustForKeyboard(notification: Notification) {
         let userInfo = notification.userInfo!
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
