@@ -16,7 +16,7 @@ class StubNetwork: Networking {
     }
     
     func request(_ url: String, method: Alamofire.HTTPMethod = .get, parameters: [String: Any]?, encoding: ParameterEncoding = URLEncoding.default, headers: [String: String]?, useDisposables: Bool) -> SignalProducer<Any?, NetworkError> {
-        return SignalProducer { sink, disposable in
+        return SignalProducer { sink, _ in
             let testBundle = Bundle(for: type(of: self))
             switch (url, method) {
             case ("recipes", .get):

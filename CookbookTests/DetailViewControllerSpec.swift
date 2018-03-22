@@ -23,15 +23,15 @@ class DetailViewControllerSpec: QuickSpec {
             
             // Registration for the stub network.
             container.register(Networking.self) { _ in StubNetwork() }.inObjectScope(.container)
-            container.register(CookbookAPIServicing.self) { r in StubAPIService(network: r.resolve(Networking.self)!, authHandler: nil) }
+            container.register(CookbookAPIServicing.self) { res in StubAPIService(network: res.resolve(Networking.self)!, authHandler: nil) }
             
             // View model
-            container.register(DetailViewModeling.self) { r in DetailViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
+            container.register(DetailViewModeling.self) { res in DetailViewModel(api: res.resolve(CookbookAPIServicing.self)!) }
             
             // View
-            container.register(DetailViewController.self) { r in
+            container.register(DetailViewController.self) { res in
                 let controller = DetailViewController()
-                controller.viewModel = r.resolve(DetailViewModeling.self)!
+                controller.viewModel = res.resolve(DetailViewModeling.self)!
                 return controller
                 }.inObjectScope(.container)
         }

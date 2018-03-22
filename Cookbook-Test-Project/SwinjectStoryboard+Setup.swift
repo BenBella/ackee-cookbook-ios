@@ -15,20 +15,19 @@ extension SwinjectStoryboard {
         
         // Networking
         defaultContainer.register(Networking.self) { _ in Network() }.inObjectScope(.container)
-        defaultContainer.register(CookbookAPIServicing.self) { r in CookbookAPIService(network: r.resolve(Networking.self)!, authHandler: nil) }
+        defaultContainer.register(CookbookAPIServicing.self) { res in CookbookAPIService(network: res.resolve(Networking.self)!, authHandler: nil) }
         
         // View models
-        defaultContainer.register(MasterViewModeling.self) { r in MasterViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
-        defaultContainer.register(DetailViewModeling.self) { r in DetailViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
-        defaultContainer.register(EditViewModeling.self) { r in EditViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
+        defaultContainer.register(MasterViewModeling.self) { res in MasterViewModel(api: res.resolve(CookbookAPIServicing.self)!) }
+        defaultContainer.register(DetailViewModeling.self) { res in DetailViewModel(api: res.resolve(CookbookAPIServicing.self)!) }
+        defaultContainer.register(EditViewModeling.self) { res in EditViewModel(api: res.resolve(CookbookAPIServicing.self)!) }
         
         // Views
-        defaultContainer.storyboardInitCompleted(MasterViewController.self) { r, c in
-            c.viewModel = r.resolve(MasterViewModeling.self)!
+        defaultContainer.storyboardInitCompleted(MasterViewController.self) { res, con in
+            con.viewModel = res.resolve(MasterViewModeling.self)!
         }
-        defaultContainer.storyboardInitCompleted(EditViewController.self) { r, c in
-            c.viewModel = r.resolve(EditViewModeling.self)!
+        defaultContainer.storyboardInitCompleted(EditViewController.self) { res, con in
+            con.viewModel = res.resolve(EditViewModeling.self)!
         }
     }
 }
-

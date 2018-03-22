@@ -6,6 +6,7 @@
 //  Copyright © 2018 Dominik Vesely. All rights reserved.
 //
 
+// swiftlint:disable file_length
 import UIKit
 import ReactiveSwift
 import ReactiveCocoa
@@ -17,6 +18,7 @@ protocol EditViewControlling {
     
 }
 
+// swiftlint:disable type_body_length
 class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, EditViewControlling {
 
     private let scrollView = UIScrollView()
@@ -126,7 +128,8 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     }
     
     // MARK: Layout
-    
+
+    // swiftlint:disable function_body_length
     func makeConstraints() {
         let superview = self.view!
         
@@ -214,10 +217,10 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         
         scrollView.addSubview(ingredientsStackView)
         ingredientsStackView.backgroundColor = UIColor.brown
-        ingredientsStackView.axis = .vertical;
-        ingredientsStackView.distribution = .equalSpacing;
-        ingredientsStackView.alignment = .center;
-        ingredientsStackView.spacing = 10;
+        ingredientsStackView.axis = .vertical
+        ingredientsStackView.distribution = .equalSpacing
+        ingredientsStackView.alignment = .center
+        ingredientsStackView.spacing = 10
         ingredientsStackView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(ingredientsLabel.snp.bottom)
             make.width.equalToSuperview().inset(inset)
@@ -333,17 +336,17 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         
         createViewBorder(for: ingredientsStackView, flag: false, color: UIColor.theme.pink)
         let validStackViewSignal = hasIngredient.signal
-        validStackViewSignal.observeValues{ [unowned self] flag in
+        validStackViewSignal.observeValues { [unowned self] flag in
             self.createViewBorder(for: self.ingredientsStackView, flag: flag, color: UIColor.theme.pink)
         }
         
-        ingredientAddButton.reactive.controlEvents(.touchUpInside).observeValues { [unowned self] sender in
-            self.ingredientsStackView.snp.updateConstraints{ [unowned self] (make) -> Void in
+        ingredientAddButton.reactive.controlEvents(.touchUpInside).observeValues { [unowned self] _ in
+            self.ingredientsStackView.snp.updateConstraints { [unowned self] (make) -> Void in
                 make.top.equalTo(self.ingredientsLabel.snp.bottom).offset(20)
             }
             let ingredienceTextField = UITextField()
             let validIngredienceTextFieldSignal = self.textFieldValidation(for: ingredienceTextField)
-            validIngredienceTextFieldSignal.observeValues{ [unowned self, unowned ingredienceTextField] flag in
+            validIngredienceTextFieldSignal.observeValues { [unowned self, unowned ingredienceTextField] flag in
                 self.createViewBorder(for: ingredienceTextField, flag: flag, color: UIColor.theme.pink)
             }
             self.ingredientsTextFields.append(ingredienceTextField)
@@ -357,7 +360,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
                 self.view.setNeedsLayout()
             }
             
-            Signal.combineLatest(self.validIngrediencesSignals).map{!$0.contains(false)}.observeValues { flag in
+            Signal.combineLatest(self.validIngrediencesSignals).map { !$0.contains(false)}.observeValues { flag in
                 self.hasIngredient.swap(flag)
             }
         }
@@ -374,12 +377,12 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             self.createViewBorder(for: self.durationTextField, flag: flag, color: UIColor.theme.pink)
         }
         
-        Signal.combineLatest(validRecipeNameSignal, validInfoTextSignal, validStackViewSignal, validDescriptionTextSignal, validDurationTextSignal).map{ $0 && $1 && $2 && $3 && $4 }.observeValues {  flag in
+        Signal.combineLatest(validRecipeNameSignal, validInfoTextSignal, validStackViewSignal, validDescriptionTextSignal, validDurationTextSignal).map { $0 && $1 && $2 && $3 && $4 }.observeValues {  flag in
             self.saveButtonItem?.isEnabled = flag
             self.viewModel!.inputIsValid.swap(flag)
-            if (flag == true) {
+            if flag == true {
                 self.viewModel!.duration.swap(Int(self.durationTextField.text!)!)
-                self.ingredients.swap(self.ingredientsTextFields.map{ $0.text ?? ""})
+                self.ingredients.swap(self.ingredientsTextFields.map { $0.text ?? ""})
             }
         }
         
@@ -401,7 +404,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             .reactive
             .continuousTextValues
             .skipNil()
-            .map { $0.count > 0 && Int($0) != nil && Int($0) != 0}
+            .map { !$0.isEmpty && Int($0) != nil && Int($0) != 0}
     }
     
     func textFieldValidation(for field: UITextField) -> Signal<Bool, NoError> {
@@ -445,7 +448,7 @@ class EditViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     @objc
     func adjustForKeyboard(notification: Notification) {
         let userInfo = notification.userInfo!
-        
+        // swiftlint:disable force_cast
         let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         

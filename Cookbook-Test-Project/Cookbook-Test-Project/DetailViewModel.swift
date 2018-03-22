@@ -14,7 +14,7 @@ import Result
 
 protocol DetailViewModeling {
     
-    var recipeId: String? { set get }
+    var recipeId: String? { get set }
     var active: MutableProperty<Bool> { get }
     var refreshSignal: Signal<Void, NoError> { get }
     var refreshObserver: Signal<Void, NoError>.Observer { get }
@@ -37,7 +37,7 @@ protocol DetailViewModeling {
     var evaluateAction: Action<Int, Any?, RequestError> { get set }
 }
 
-class DetailViewModel : DetailViewModeling {
+class DetailViewModel: DetailViewModeling {
 
     // MARK: - Dependencies
     var api: CookbookAPIServicing
@@ -86,7 +86,7 @@ class DetailViewModel : DetailViewModeling {
     
     // Actions
     lazy var evaluateAction: Action<Int, Any?, RequestError> = { [unowned self] (input: Int) in
-        return Action<Int, Any?, RequestError>() { [unowned self] (input: Int) in
+        return Action<Int, Any?, RequestError> { [unowned self] (input: Int) in
             let parameters = EvaluateParameters(
                 score: input
             )
@@ -121,14 +121,14 @@ class DetailViewModel : DetailViewModeling {
             .start(refreshObserver)
  
         SignalProducer<Void, NoError>(refreshSignal)
-            .on(value: { [unowned self] _ in self.isLoading.swap(true)} )
+            .on(value: { [unowned self] _ in self.isLoading.swap(true) })
             .flatMap(FlattenStrategy.latest) { [unowned self] _ in
                 return self.api.getRecipeDetail(id: self.recipeId ?? "").flatMapError { error in
                     self.alertMessageObserver.send(value: error)
                     return SignalProducer(value: [])
                 }
             }
-            .on(value: {[weak self]  _ in self?.isLoading.swap(false)} )
+            .on(value: {[weak self]  _ in self?.isLoading.swap(false) })
             .skipNil()
             .start({ [weak self] signal in
                 self?.recipeDetail = signal.value! as? RecipeDetail

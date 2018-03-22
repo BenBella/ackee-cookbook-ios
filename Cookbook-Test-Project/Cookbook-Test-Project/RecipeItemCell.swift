@@ -34,6 +34,7 @@ class RecipeItemCell: UITableViewCell {
         makeConstraints()
     }
     
+    // swiftlint:disable function_body_length
     private func makeConstraints() {
         let superview = self.contentView
         
@@ -79,7 +80,7 @@ class RecipeItemCell: UITableViewCell {
         
         recipeDurationWrapper.addSubview(recipeDurationIcon)
         recipeDurationIcon.image = #imageLiteral(resourceName: "ic_time")
-        recipeDurationIcon.snp.makeConstraints{ (make) -> Void in
+        recipeDurationIcon.snp.makeConstraints { (make) -> Void in
             make.width.height.equalTo(14)
             make.top.equalTo(recipeDurationWrapper.snp.top).offset(4)
             make.left.equalTo(recipeDurationWrapper.snp.left).offset(4)
@@ -89,7 +90,7 @@ class RecipeItemCell: UITableViewCell {
         recipeDurationLabel.backgroundColor = UIColor.theme.white
         recipeDurationLabel.textColor = UIColor.theme.darkGray
         recipeDurationLabel.font = UIFont.theme.text
-        recipeDurationLabel.snp.makeConstraints{ (make) -> Void in
+        recipeDurationLabel.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(recipeDurationWrapper)
             make.top.equalTo(recipeDurationWrapper.snp.top)
             make.left.equalTo(recipeDurationIcon.snp.right).offset(4)
@@ -98,7 +99,7 @@ class RecipeItemCell: UITableViewCell {
         
         superview.addSubview(separator)
         separator.backgroundColor = UIColor.theme.lightGray
-        separator.snp.makeConstraints{ (make) -> Void in
+        separator.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(1)
             make.width.equalTo(superview.snp.width)
             make.bottom.equalTo(superview.snp.bottom)
@@ -125,14 +126,14 @@ class RecipeItemCell: UITableViewCell {
             starIcon.image = #imageLiteral(resourceName: "ic_star")
             recipeScoreWrapper.addSubview(starIcon)
             if prevIcon == nil {
-                starIcon.snp.makeConstraints{ (make) -> Void in
+                starIcon.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(18)
                     make.centerY.equalTo(recipeScoreWrapper.snp.centerY)
                     make.left.equalTo(recipeScoreWrapper.snp.left)
                 }
                 prevIcon = starIcon
             } else {
-                starIcon.snp.makeConstraints{ (make) -> Void in
+                starIcon.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(18)
                     make.centerY.equalTo(recipeScoreWrapper.snp.centerY)
                     make.left.equalTo(prevIcon!.snp.right)

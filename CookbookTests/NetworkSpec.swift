@@ -16,6 +16,7 @@ import enum Result.NoError
 
 class NetworkSpec: QuickSpec {
     
+    // swiftlint:disable function_body_length
     override func spec() {
         var container: Container!
         beforeEach {
@@ -23,19 +24,19 @@ class NetworkSpec: QuickSpec {
 
             // Registration for the stub network.
             container.register(Networking.self, name: "stub") { _ in StubNetwork() }
-            container.register(CookbookAPIServicing.self, name: "stub") { r in StubAPIService(network: r.resolve(Networking.self, name: "stub")!, authHandler: nil) }
+            container.register(CookbookAPIServicing.self, name: "stub") { res in StubAPIService(network: res.resolve(Networking.self, name: "stub")!, authHandler: nil) }
             
             // Registration for the live network.
             container.register(Networking.self, name: "live") { _ in Network() }
-            container.register(CookbookAPIServicing.self, name: "live") { r in CookbookAPIService(network: r.resolve(Networking.self, name: "live")!, authHandler: nil) }
+            container.register(CookbookAPIServicing.self, name: "live") { res in CookbookAPIService(network: res.resolve(Networking.self, name: "live")!, authHandler: nil) }
         }
         
         it("returns stub recipes.") {
             var recipes: [Recipe]?
             let api = container.resolve(CookbookAPIServicing.self, name: "stub")!
-            _ = api.getRecipes().start( { signal in
+            _ = api.getRecipes().start({ signal in
                 switch signal {
-                case .failed(_):
+                case .failed:
                     break
                 case let .value(value): do {
                     recipes = value as? [Recipe]
@@ -51,7 +52,7 @@ class NetworkSpec: QuickSpec {
         it("returns live recipes.") {
             var recipes: [Recipe]?
             let api = container.resolve(CookbookAPIServicing.self, name: "live")!
-            _ = api.getRecipes().start( { signal in
+            _ = api.getRecipes().start { signal in
                 switch signal {
                 case let .failed(error):
                     print(error)
@@ -61,7 +62,7 @@ class NetworkSpec: QuickSpec {
                 case .completed, .interrupted:
                     break
                 }
-            })
+            }
             expect(recipes).toEventuallyNot(beNil(), timeout: 5)
             expect(recipes?.count).toEventually(beGreaterThan(0), timeout: 5)
         }
@@ -69,7 +70,7 @@ class NetworkSpec: QuickSpec {
         it("fills recipes data.") {
             var recipes: [Recipe]?
             let api = container.resolve(CookbookAPIServicing.self, name: "stub")!
-            _ = api.getRecipes().start( { signal in
+            _ = api.getRecipes().start { signal in
                 switch signal {
                 case let .failed(error):
                     print(error)
@@ -87,7 +88,7 @@ class NetworkSpec: QuickSpec {
                 case .completed, .interrupted:
                     break
                 }
-            })
+            }
         }
     }
     

@@ -28,4 +28,3 @@ struct RecipeParameters {
         return jsonObject
     }
 }
-

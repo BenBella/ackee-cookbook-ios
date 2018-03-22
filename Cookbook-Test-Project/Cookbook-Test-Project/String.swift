@@ -15,17 +15,14 @@ extension String {
      Translate string to locale
      */
     var localized: String {
-        get {
-            
-            #if DEBUG
-                let debugValue = "XXX _ String not localized _ XXX"
-                let str = NSLocalizedString(self, tableName: "Localizable", bundle: Bundle.main, value: debugValue, comment: "")
-                if str == debugValue {
-                    print("Error: There is no localization for '\(self)'")
-                }
-            #endif
-            return NSLocalizedString(self, tableName: "Localizable", bundle: Bundle.main, value: self, comment: "")
-        }
+        #if DEBUG
+            let debugValue = "XXX _ String not localized _ XXX"
+            let str = NSLocalizedString(self, tableName: "Localizable", bundle: Bundle.main, value: debugValue, comment: "")
+            if str == debugValue {
+                print("Error: There is no localization for '\(self)'")
+            }
+        #endif
+        return NSLocalizedString(self, tableName: "Localizable", bundle: Bundle.main, value: self, comment: "")
     }
     
     func localized(_ count: Int) -> String {
@@ -40,13 +37,16 @@ extension String {
     }
     
     private func matches(pattern: String) -> Bool {
-        let regex = try! NSRegularExpression(
+        if let regex = try? NSRegularExpression(
             pattern: pattern,
-            options: [.caseInsensitive])
-        return regex.firstMatch(
+            options: [.caseInsensitive]) {
+            return regex.firstMatch(
             in: self,
             options: [],
             range: NSRange(location: 0, length: utf16.count)) != nil
+        } else {
+            return false
+        }
     }
     
     func isValidAbsoluteURL() -> Bool {
@@ -67,18 +67,17 @@ extension String {
     
     func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with:self)
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: self)
     }
     
     func isValidPhoneNumber() -> Bool {
         let phoneRegEx = "^\\+[0-9]{3} [0-9]{3} [0-9]{3} [0-9]{3}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegEx)
-        return phoneTest.evaluate(with:self)
+        return phoneTest.evaluate(with: self)
     }
     
     func createDurationString(duration: Int) -> String {
         return duration < 60 ? String(duration) + " min." :  String(duration/60) + " hr."
     }
 }
-

@@ -13,9 +13,7 @@ import Result
 
 extension UIViewController {
     func appIsActive() -> SignalProducer<Bool, NoError> {
-        
         // Track whether app is in foreground
-        
         let notificationCenter = NotificationCenter.default
         let didBecomeActive = notificationCenter.reactive.notifications(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil).producer
         let willBecomeInactive = notificationCenter.reactive.notifications(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil).producer
@@ -29,9 +27,7 @@ extension UIViewController {
     }
     
     func isActive() -> SignalProducer<Bool, NoError> {
-        
         // Track whether view is visible
-        
         let viewWillAppear = self.reactive.signal(for: #selector(UIViewController.viewWillAppear(_:))).producer
         let viewWillDisappear = self.reactive.signal(for: #selector(UIViewController.viewWillDisappear(_:))).producer
         
@@ -45,18 +41,18 @@ extension UIViewController {
     
     func showErrorAlert(error: Error, completion: (() -> Swift.Void)? = nil) {
         let alert = UIAlertController (title: "global.error".localized, message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-        let okButton = UIAlertAction(title: "global.continue".localized, style: UIAlertActionStyle.default) { (action: UIAlertAction) in
+        let okButton = UIAlertAction(title: "global.continue".localized, style: UIAlertActionStyle.default) { _ in
             completion?()
         }
         alert.addAction(okButton)
-        self.present(alert, animated:true, completion:nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func showInfoAlert(time: Double, info: String, completion: (() -> Swift.Void)? = nil) {
         let alert = UIAlertController (title: "", message: info, preferredStyle: UIAlertControllerStyle.alert)
-        self.present(alert, animated:true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         let when = DispatchTime.now() + time
-        DispatchQueue.main.asyncAfter(deadline: when){
+        DispatchQueue.main.asyncAfter(deadline: when) {
             alert.dismiss(animated: true, completion: completion)
         }
     }
@@ -69,9 +65,9 @@ extension UIViewController {
         UIView.animate(withDuration: 0.35, animations: {
             snapshot.layer.opacity = 0
             snapshot.layer.transform = CATransform3DMakeScale(1.5, 1.5, 1.5)
-        }) { (_) in
+        }, completion: { (_) in
             snapshot.removeFromSuperview()
-        }
+        })
     }
     
     func createViewBorder(for view: UIView, flag: Bool, color: UIColor) {

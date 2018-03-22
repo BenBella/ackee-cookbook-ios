@@ -60,6 +60,7 @@ class DetailViewController: UIViewController {
     
     // MARK: - Bindings
     
+    // swiftlint:disable function_body_length cyclomatic_complexity
     private func bindViewModel() {
         guard viewModel != nil else {
             return
@@ -73,7 +74,7 @@ class DetailViewController: UIViewController {
             switch signal {
             case let .failed(error):
                 self.showErrorAlert(error: error)
-            case .value(_): do {
+            case .value: do {
                     if let viewModel = self.viewModel {
                         self.recipeNameLabel.text = viewModel.recipeName
                         self.infoLabel.text = viewModel.recipeInfo
@@ -126,6 +127,7 @@ class DetailViewController: UIViewController {
         }
         
         self.evaluateAction = CocoaAction(viewModel!.evaluateAction, { sender in
+            // swiftlint:disable force_cast
             return (sender as! UIButton).tag }
         )
         
@@ -135,7 +137,7 @@ class DetailViewController: UIViewController {
     }
     
     // MARK: Layout
-    
+    // swiftlint:disable function_body_length
     private func makeConstraints() {
         let superview = self.view!
         
@@ -236,10 +238,10 @@ class DetailViewController: UIViewController {
         
         scrollView.addSubview(ingredientsStackView)
         ingredientsStackView.backgroundColor = UIColor.theme.white
-        ingredientsStackView.axis = .vertical;
-        ingredientsStackView.distribution = .equalSpacing;
-        ingredientsStackView.alignment = .center;
-        ingredientsStackView.spacing = 5;
+        ingredientsStackView.axis = .vertical
+        ingredientsStackView.distribution = .equalSpacing
+        ingredientsStackView.alignment = .center
+        ingredientsStackView.spacing = 5
         ingredientsStackView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(ingredientsTitleLabel.snp.bottom).offset(inset)
             make.width.equalToSuperview().inset(inset)
@@ -305,14 +307,14 @@ class DetailViewController: UIViewController {
             self.evaluateButtons.append(starButton)
             scoreEvaluateButtonsWrapper.addSubview(starButton)
             if prevButton == nil {
-                starButton.snp.makeConstraints{ (make) -> Void in
+                starButton.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(40)
                     make.centerY.equalTo(scoreEvaluateButtonsWrapper.snp.centerY)
                     make.left.equalTo(scoreEvaluateButtonsWrapper.snp.left)
                 }
                 prevButton = starButton
             } else {
-                starButton.snp.makeConstraints{ (make) -> Void in
+                starButton.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(40)
                     make.centerY.equalTo(scoreEvaluateButtonsWrapper.snp.centerY)
                     make.left.equalTo(prevButton!.snp.right)
@@ -351,14 +353,14 @@ class DetailViewController: UIViewController {
             starIcon.image = #imageLiteral(resourceName: "ic_star_white")
             scoreWrapperView.addSubview(starIcon)
             if prevIcon == nil {
-                starIcon.snp.makeConstraints{ (make) -> Void in
+                starIcon.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(18)
                     make.centerY.equalTo(scoreWrapperView.snp.centerY)
                     make.left.equalTo(scoreWrapperView.snp.left)
                 }
                 prevIcon = starIcon
             } else {
-                starIcon.snp.makeConstraints{ (make) -> Void in
+                starIcon.snp.makeConstraints { (make) -> Void in
                     make.height.width.equalTo(18)
                     make.centerY.equalTo(scoreWrapperView.snp.centerY)
                     make.left.equalTo(prevIcon!.snp.right)
@@ -381,4 +383,3 @@ class DetailViewController: UIViewController {
     }
     
 }
-

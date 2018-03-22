@@ -22,15 +22,15 @@ open class Theme {
     open class Color {
         init() {}
         open let clear = UIColor.clear
-        open let white = UIColor(hex:"FFFFFF")
-        open let black = UIColor(hex:"000000")
-        open let transparentBlack = UIColor(rgba:"#0000006D")
-        open let blue = UIColor(hex:"0000FF")
-        open let pink = UIColor(hex:"FF00FF")
-        open let lightGray = UIColor(hex:"D3D3D7")
-        open let dimGray = UIColor(hex:"A1A1A1")
-        open let darkGray = UIColor(hex:"030303")
-        open let transparentGreen = UIColor(rgba:"#0000FFC8")
+        open let white = UIColor(hex: "FFFFFF")
+        open let black = UIColor(hex: "000000")
+        open let transparentBlack = UIColor(rgba: "#0000006D")
+        open let blue = UIColor(hex: "0000FF")
+        open let pink = UIColor(hex: "FF00FF")
+        open let lightGray = UIColor(hex: "D3D3D7")
+        open let dimGray = UIColor(hex: "A1A1A1")
+        open let darkGray = UIColor(hex: "030303")
+        open let transparentGreen = UIColor(rgba: "#0000FFC8")
     }
     
     open class Font {
@@ -72,4 +72,3 @@ public extension UIColor {
         return Theme.current.color
     }
 }
-

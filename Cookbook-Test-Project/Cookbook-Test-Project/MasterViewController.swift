@@ -105,7 +105,7 @@ class MasterViewController: UITableViewController {
         tableView.setEditing(!tableView.isEditing, animated: true)
         if tableView.isEditing == true {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(editButtonItemPressed(_:)))
-        }else{
+        } else { 
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonItemPressed(_:)))
         }
     }
@@ -131,6 +131,7 @@ class MasterViewController: UITableViewController {
                 return
             }
             if let indexPath = self.tableView.indexPathForSelectedRow {
+                // swiftlint:disable force_cast
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 if let detailViewModel = SwinjectStoryboard.defaultContainer.resolve(DetailViewModeling.self) {
                     controller.viewModel = detailViewModel
@@ -153,6 +154,7 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // swiftlint:disable force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RecipeItemCell
         if let viewModel = viewModel {
             cell.updateName(viewModel.recipeNameAt(indexPath))
@@ -176,4 +178,3 @@ class MasterViewController: UITableViewController {
     }
 
 }
-

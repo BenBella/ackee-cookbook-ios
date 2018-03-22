@@ -15,7 +15,7 @@ import Alamofire
  Stub class for creating api calls to our server
  */
 
-class StubAPIService : APIService, CookbookAPIServicing {
+class StubAPIService: APIService, CookbookAPIServicing {
  
     override func resourceURL(_ path: String) -> URL {
         return Foundation.URL(string: path)!
@@ -24,12 +24,14 @@ class StubAPIService : APIService, CookbookAPIServicing {
     internal func getRecipes() -> SignalProducer<Any?, RequestError> {
         return self.request("recipes")
             .mapError { .network($0) }
+            // swiftlint:disable force_cast
             .map { Recipe.unboxMany(recipes: $0 as! [JSONObject]) }
     }
     
     internal func getRecipeDetail(id: String) -> SignalProducer<Any?, RequestError> {
         return self.request("recipe")
             .mapError { .network($0) }
+            // swiftlint:disable force_cast
             .map { (try? unbox(dictionary: $0 as! JSONObject) as RecipeDetail) ?? RecipeDetail() }
     }
     
@@ -48,4 +50,3 @@ class StubAPIService : APIService, CookbookAPIServicing {
             .mapError { .network($0) }
     }
 }
-

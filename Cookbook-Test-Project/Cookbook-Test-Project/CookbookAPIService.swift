@@ -14,7 +14,7 @@ import Alamofire
 /**
  Concrete class for creating api calls to our server
  */
-class CookbookAPIService : APIService, CookbookAPIServicing {
+class CookbookAPIService: APIService, CookbookAPIServicing {
     
     override func resourceURL(_ path: String) -> URL {
         let URL = Foundation.URL(string: "https://cookbook.ack.ee/api/v1/")!
@@ -25,12 +25,14 @@ class CookbookAPIService : APIService, CookbookAPIServicing {
     internal func getRecipes() -> SignalProducer<Any?, RequestError> {
         return self.request("recipes")
             .mapError { .network($0) }
+            // swiftlint:disable force_cast
             .map { Recipe.unboxMany(recipes: $0 as! [JSONObject]) }
     }
 
     internal func getRecipeDetail(id: String) -> SignalProducer<Any?, RequestError> {
         return self.request("recipes/" + id)
             .mapError { .network($0) }
+            // swiftlint:disable force_cast
             .map { (try? unbox(dictionary: $0 as! JSONObject) as RecipeDetail) ?? RecipeDetail() }
     }
     

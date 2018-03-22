@@ -23,15 +23,15 @@ class MasterViewControllerSpec: QuickSpec {
             
             // Registration for the stub network.
             container.register(Networking.self) { _ in StubNetwork() }.inObjectScope(.container)
-            container.register(CookbookAPIServicing.self) { r in StubAPIService(network: r.resolve(Networking.self)!, authHandler: nil) }
+            container.register(CookbookAPIServicing.self) { res in StubAPIService(network: res.resolve(Networking.self)!, authHandler: nil) }
             
             // View model
-            container.register(MasterViewModeling.self) { r in MasterViewModel(api: r.resolve(CookbookAPIServicing.self)!) }
+            container.register(MasterViewModeling.self) { res in MasterViewModel(api: res.resolve(CookbookAPIServicing.self)!) }
             
             // View
-            container.register(MasterViewController.self) { r in
+            container.register(MasterViewController.self) { res in
                 let controller = MasterViewController()
-                controller.viewModel = r.resolve(MasterViewModeling.self)!
+                controller.viewModel = res.resolve(MasterViewModeling.self)!
                 return controller
             }.inObjectScope(.container)
         }

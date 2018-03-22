@@ -25,7 +25,7 @@ class Recipe: Unboxable {
         score = try unboxer.unbox(keyPath: "score")
     }
     
-    static func unboxMany(recipes: [JSONObject])  -> [Recipe] {
+    static func unboxMany(recipes: [JSONObject]) -> [Recipe] {
         return (try? unbox(dictionaries: recipes, allowInvalidElements: true) as [Recipe]) ?? []
     }
  
@@ -36,6 +36,6 @@ class Recipe: Unboxable {
 
 extension Recipe: Equatable {}
 
-func ==(lhs: Recipe, rhs: Recipe) -> Bool {
+func == (lhs: Recipe, rhs: Recipe) -> Bool {
     return lhs.id == rhs.id
 }

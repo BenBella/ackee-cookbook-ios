@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ackee s.r.o. All rights reserved.
 //
 
-
 import Foundation
 import Alamofire
 import ReactiveSwift
@@ -19,13 +18,13 @@ struct NetworkError: Error {
 }
 
 protocol Networking {
+    // swiftlint:disable function_parameter_count
     func request(_ url: String, method: Alamofire.HTTPMethod, parameters: [String: Any]?, encoding: ParameterEncoding, headers: [String: String]?, useDisposables: Bool) -> SignalProducer<Any?, NetworkError>
 }
 
-
 class Network: Networking {
     
-    let alamofireManager : SessionManager
+    let alamofireManager: SessionManager
     
     init() {
         let configuration = Reqres.defaultSessionConfiguration()
@@ -37,12 +36,12 @@ class Network: Networking {
         return SignalProducer { sink, disposable in
             let request = self.alamofireManager.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
                 .validate()
-                .response() { let request = $0.request; let response = $0.response; let data = $0.data; let error = $0.error
-
+                .response { let request = $0.request; let response = $0.response; let data = $0.data; let error = $0.error
                     switch (data, error) {
                     case (_, .some(let e)):
                         sink.send(error: NetworkError(error: e as NSError, request: request, response: response))
                     case (.some(let d), _):
+                        // swiftlint:disable todo
                         // TODO: Should be discussed with a backend developer, there could be nicer way how to handle delete action.
                         if request?.httpMethod == "DELETE" && response?.statusCode == 204 {
                             sink.send(value: true)

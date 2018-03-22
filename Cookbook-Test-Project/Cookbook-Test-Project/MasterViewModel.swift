@@ -37,7 +37,7 @@ protocol MasterViewModeling {
     func editViewModel() -> EditViewModel
 }
 
-class MasterViewModel : MasterViewModeling {
+class MasterViewModel: MasterViewModeling {
     
     // MARK: - Dependencies
     var api: CookbookAPIServicing
@@ -99,16 +99,17 @@ class MasterViewModel : MasterViewModeling {
             .observe(refreshObserver)
  
         SignalProducer<Void, NoError>(refreshSignal)
-            .on(value: { [unowned self] _ in self.isLoading.swap(true)} )
+            .on(value: { [unowned self] _ in self.isLoading.swap(true) })
             .flatMap(FlattenStrategy.latest) { [unowned self] _ in
                 return self.api.getRecipes().flatMapError { error in
                     alertMessageObserver.send(value: error)
                     return SignalProducer(value: [])
                 }
             }
-            .on(value: {[unowned self]  _ in self.isLoading.swap(false)} )
+            .on(value: {[unowned self]  _ in self.isLoading.swap(false) })
             .combinePrevious([Recipe]())
             .start({ [unowned self] signal in
+                // swiftlint:disable force_cast
                 let oldRecipes = signal.value!.0 as! [Recipe]
                 let newRecipes = signal.value!.1 as! [Recipe]
                 self.recipes = newRecipes

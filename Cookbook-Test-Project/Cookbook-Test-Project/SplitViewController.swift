@@ -13,7 +13,7 @@ extension UISplitViewController {
     
     func toggleMasterView() {
         if self.isCollapsed, let nav = self.viewControllers[0] as? UINavigationController {
-            nav.popToRootViewController(animated:false)
+            nav.popToRootViewController(animated: false)
         } else {
             self.preferredDisplayMode = .allVisible
         }

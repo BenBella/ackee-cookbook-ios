@@ -11,6 +11,7 @@
 		2DEA4643A76FD437AF885DAE /* Pods_CookbookTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8038FDA6535FDAC7E3AA2C0 /* Pods_CookbookTests.framework */; };
 		8E312666205BCEB300C86B61 /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E312665205BCEB300C86B61 /* NetworkSpec.swift */; };
 		8E5C4FA1205182FD008C308E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C4FA0205182FD008C308E /* Theme.swift */; };
+		8E5C62D32063BE8E00A898B6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */; };
 		8E71F475206232AA00397B47 /* MasterViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */; };
 		8E71F47A20625E4E00397B47 /* StubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F47820625D5C00397B47 /* StubAPIService.swift */; };
 		8E71F47B20625F3F00397B47 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E71F47620625C0E00397B47 /* recipe.json */; };
@@ -65,6 +66,7 @@
 		8E312665205BCEB300C86B61 /* NetworkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; };
 		8E312667205BCEB300C86B61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E5C4FA0205182FD008C308E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = .swiftlint.yml; path = "Cookbook-Test-Project/.swiftlint.yml"; sourceTree = SOURCE_ROOT; };
 		8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewControllerSpec.swift; sourceTree = "<group>"; };
 		8E71F47620625C0E00397B47 /* recipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe.json; sourceTree = "<group>"; };
 		8E71F47820625D5C00397B47 /* StubAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubAPIService.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				8E799A3720618036008A799A /* AppDelegate.swift */,
 				8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */,
 				8E5C4FA0205182FD008C308E /* Theme.swift */,
+				8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */,
 				8E799A742061844C008A799A /* Info.plist */,
 				8E799A692061816C008A799A /* Assets.xcassets */,
 				8E799A75206184A6008A799A /* LaunchScreen.storyboard */,
@@ -305,6 +308,7 @@
 				B4B814FD1E27831800C8A24B /* Resources */,
 				9A2DF950422C784D0C96BCA0 /* [CP] Embed Pods Frameworks */,
 				A6A2A6772786FD32B0C2F9F6 /* [CP] Copy Pods Resources */,
+				8E5C62D12063AE0300A898B6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -372,6 +376,7 @@
 				8E799A352061622C008A799A /* recipes.json in Resources */,
 				8E71F47B20625F3F00397B47 /* recipe.json in Resources */,
 				8E799A6C2061816C008A799A /* Localizable.strings in Resources */,
+				8E5C62D32063BE8E00A898B6 /* .swiftlint.yml in Resources */,
 				8E799A78206184B6008A799A /* Main.storyboard in Resources */,
 				8E799A77206184B3008A799A /* LaunchScreen.storyboard in Resources */,
 				8E799A6D2061816C008A799A /* Assets.xcassets in Resources */,
@@ -395,6 +400,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CookbookTests/Pods-CookbookTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8E5C62D12063AE0300A898B6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
 		};
 		9A2DF950422C784D0C96BCA0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

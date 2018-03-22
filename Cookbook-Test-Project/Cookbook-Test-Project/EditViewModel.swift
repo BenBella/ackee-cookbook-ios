@@ -34,7 +34,7 @@ protocol EditViewModeling {
     var saveAction: Action<Void, Any?, RequestError> { get set }
 }
 
-class EditViewModel : EditViewModeling {
+class EditViewModel: EditViewModeling {
     
     // MARK: - Dependencies
     var api: CookbookAPIServicing
@@ -89,5 +89,3 @@ class EditViewModel : EditViewModeling {
     }
     
 }
-    
-
