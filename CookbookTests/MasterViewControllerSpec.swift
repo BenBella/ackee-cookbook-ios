@@ -18,8 +18,12 @@ class MasterViewControllerSpec: QuickSpec {
     
     override func spec() {
         var container: Container!
+        
+        // 1. given
         beforeEach {
             container = Container()
+            
+            // SUT
             
             // Registration for the stub network.
             container.register(Networking.self) { _ in StubNetwork() }.inObjectScope(.container)
@@ -39,8 +43,10 @@ class MasterViewControllerSpec: QuickSpec {
         it("starts fetching recipes information when the view is about appearing.") {
             let controller = container.resolve(MasterViewController.self)!
             controller.viewModel?.contentChangesSignal.observeValues({ changeset in
+                // 3. then
                 expect(changeset.insertions.count).toEventually(equal(6))
             })
+            // 2. when
             controller.viewWillAppear(true)
         }
     }

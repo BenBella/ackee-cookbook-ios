@@ -20,13 +20,13 @@
 		8E799A352061622C008A799A /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E799A342061616E008A799A /* recipes.json */; };
 		8E799A362061622F008A799A /* StubNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A2F20615A79008A799A /* StubNetwork.swift */; };
 		8E799A3820618036008A799A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3720618036008A799A /* AppDelegate.swift */; };
-		8E799A42206180BE008A799A /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3B206180BE008A799A /* Int.swift */; };
-		8E799A43206180BE008A799A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3C206180BE008A799A /* String.swift */; };
-		8E799A44206180BE008A799A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3D206180BE008A799A /* Array.swift */; };
+		8E799A42206180BE008A799A /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3B206180BE008A799A /* Int+.swift */; };
+		8E799A43206180BE008A799A /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3C206180BE008A799A /* String+.swift */; };
+		8E799A44206180BE008A799A /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3D206180BE008A799A /* Array+.swift */; };
 		8E799A45206180BE008A799A /* SwinjectStoryboard+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */; };
-		8E799A46206180BE008A799A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3F206180BE008A799A /* ViewController.swift */; };
-		8E799A47206180BE008A799A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A40206180BE008A799A /* Color.swift */; };
-		8E799A48206180BE008A799A /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A41206180BE008A799A /* SplitViewController.swift */; };
+		8E799A46206180BE008A799A /* ViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A3F206180BE008A799A /* ViewController+.swift */; };
+		8E799A47206180BE008A799A /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A40206180BE008A799A /* Color+.swift */; };
+		8E799A48206180BE008A799A /* SplitViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A41206180BE008A799A /* SplitViewController+.swift */; };
 		8E799A4D206180E4008A799A /* RecipeItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A49206180E4008A799A /* RecipeItemCell.swift */; };
 		8E799A4E206180E4008A799A /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A4A206180E4008A799A /* EditViewController.swift */; };
 		8E799A4F206180E4008A799A /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A4B206180E4008A799A /* MasterViewController.swift */; };
@@ -47,6 +47,9 @@
 		8E799A7020618190008A799A /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E799A6F20618190008A799A /* Ingredient.swift */; };
 		8E799A77206184B3008A799A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E799A75206184A6008A799A /* LaunchScreen.storyboard */; };
 		8E799A78206184B6008A799A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E799A76206184AE008A799A /* Main.storyboard */; };
+		8EF5D2F9206B6CA80076B5CC /* DetailViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D2F8206B6CA80076B5CC /* DetailViewModeling.swift */; };
+		8EF5D2FB206B6D2F0076B5CC /* EditViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D2FA206B6D2F0076B5CC /* EditViewModeling.swift */; };
+		8EF5D2FD206B6D5D0076B5CC /* MasterViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D2FC206B6D5D0076B5CC /* MasterViewModeling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,13 +78,13 @@
 		8E799A2F20615A79008A799A /* StubNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetwork.swift; sourceTree = "<group>"; };
 		8E799A342061616E008A799A /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
 		8E799A3720618036008A799A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Cookbook-Test-Project/AppDelegate.swift"; sourceTree = "<group>"; };
-		8E799A3B206180BE008A799A /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = "Cookbook-Test-Project/Int.swift"; sourceTree = "<group>"; };
-		8E799A3C206180BE008A799A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = "Cookbook-Test-Project/String.swift"; sourceTree = "<group>"; };
-		8E799A3D206180BE008A799A /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Array.swift; path = "Cookbook-Test-Project/Array.swift"; sourceTree = "<group>"; };
+		8E799A3B206180BE008A799A /* Int+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Int+.swift"; path = "Cookbook-Test-Project/Int+.swift"; sourceTree = "<group>"; };
+		8E799A3C206180BE008A799A /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+.swift"; path = "Cookbook-Test-Project/String+.swift"; sourceTree = "<group>"; };
+		8E799A3D206180BE008A799A /* Array+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+.swift"; path = "Cookbook-Test-Project/Array+.swift"; sourceTree = "<group>"; };
 		8E799A3E206180BE008A799A /* SwinjectStoryboard+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwinjectStoryboard+Setup.swift"; sourceTree = "<group>"; };
-		8E799A3F206180BE008A799A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "Cookbook-Test-Project/ViewController.swift"; sourceTree = "<group>"; };
-		8E799A40206180BE008A799A /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Color.swift; path = "Cookbook-Test-Project/Color.swift"; sourceTree = "<group>"; };
-		8E799A41206180BE008A799A /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SplitViewController.swift; path = "Cookbook-Test-Project/SplitViewController.swift"; sourceTree = "<group>"; };
+		8E799A3F206180BE008A799A /* ViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ViewController+.swift"; path = "Cookbook-Test-Project/ViewController+.swift"; sourceTree = "<group>"; };
+		8E799A40206180BE008A799A /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Color+.swift"; path = "Cookbook-Test-Project/Color+.swift"; sourceTree = "<group>"; };
+		8E799A41206180BE008A799A /* SplitViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SplitViewController+.swift"; path = "Cookbook-Test-Project/SplitViewController+.swift"; sourceTree = "<group>"; };
 		8E799A49206180E4008A799A /* RecipeItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecipeItemCell.swift; path = "Cookbook-Test-Project/RecipeItemCell.swift"; sourceTree = "<group>"; };
 		8E799A4A206180E4008A799A /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditViewController.swift; path = "Cookbook-Test-Project/EditViewController.swift"; sourceTree = "<group>"; };
 		8E799A4B206180E4008A799A /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = "Cookbook-Test-Project/MasterViewController.swift"; sourceTree = "<group>"; };
@@ -103,6 +106,9 @@
 		8E799A742061844C008A799A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E799A75206184A6008A799A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E799A76206184AE008A799A /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		8EF5D2F8206B6CA80076B5CC /* DetailViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModeling.swift; sourceTree = "<group>"; };
+		8EF5D2FA206B6D2F0076B5CC /* EditViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModeling.swift; sourceTree = "<group>"; };
+		8EF5D2FC206B6D5D0076B5CC /* MasterViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewModeling.swift; sourceTree = "<group>"; };
 		9C9E934CE6D3099D02ED5692 /* Pods-Cookbook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cookbook.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cookbook/Pods-Cookbook.release.xcconfig"; sourceTree = "<group>"; };
 		B4B814FF1E27831800C8A24B /* Cookbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cookbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DBC2C751A7CF3EC684F257 /* Pods-CookbookTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CookbookTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CookbookTests/Pods-CookbookTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -188,8 +194,11 @@
 		8E4529E5204C326000F3C0EC /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				8EF5D2F8206B6CA80076B5CC /* DetailViewModeling.swift */,
 				8E799A52206180F8008A799A /* DetailViewModel.swift */,
+				8EF5D2FA206B6D2F0076B5CC /* EditViewModeling.swift */,
 				8E799A53206180F8008A799A /* EditViewModel.swift */,
+				8EF5D2FC206B6D5D0076B5CC /* MasterViewModeling.swift */,
 				8E799A51206180F8008A799A /* MasterViewModel.swift */,
 			);
 			name = "View Models";
@@ -198,12 +207,12 @@
 		8E5C4FA22051834D008C308E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				8E799A3D206180BE008A799A /* Array.swift */,
-				8E799A40206180BE008A799A /* Color.swift */,
-				8E799A3B206180BE008A799A /* Int.swift */,
-				8E799A41206180BE008A799A /* SplitViewController.swift */,
-				8E799A3C206180BE008A799A /* String.swift */,
-				8E799A3F206180BE008A799A /* ViewController.swift */,
+				8E799A3D206180BE008A799A /* Array+.swift */,
+				8E799A40206180BE008A799A /* Color+.swift */,
+				8E799A3B206180BE008A799A /* Int+.swift */,
+				8E799A41206180BE008A799A /* SplitViewController+.swift */,
+				8E799A3C206180BE008A799A /* String+.swift */,
+				8E799A3F206180BE008A799A /* ViewController+.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -549,27 +558,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E799A56206180F8008A799A /* EditViewModel.swift in Sources */,
+				8EF5D2FB206B6D2F0076B5CC /* EditViewModeling.swift in Sources */,
 				8E799A54206180F8008A799A /* MasterViewModel.swift in Sources */,
 				8E799A5E20618118008A799A /* Changeset.swift in Sources */,
-				8E799A43206180BE008A799A /* String.swift in Sources */,
+				8E799A43206180BE008A799A /* String+.swift in Sources */,
 				8E799A6520618138008A799A /* CookbookAPIService.swift in Sources */,
 				8E799A55206180F8008A799A /* DetailViewModel.swift in Sources */,
 				8E799A4D206180E4008A799A /* RecipeItemCell.swift in Sources */,
+				8EF5D2F9206B6CA80076B5CC /* DetailViewModeling.swift in Sources */,
 				8E71F47A20625E4E00397B47 /* StubAPIService.swift in Sources */,
 				8E752E3A206261050093488A /* CookbookAPIServicing.swift in Sources */,
-				8E799A47206180BE008A799A /* Color.swift in Sources */,
+				8E799A47206180BE008A799A /* Color+.swift in Sources */,
 				8E799A5C20618118008A799A /* RecipeDetail.swift in Sources */,
-				8E799A42206180BE008A799A /* Int.swift in Sources */,
+				8E799A42206180BE008A799A /* Int+.swift in Sources */,
 				8E799A5F20618118008A799A /* RecipeParameters.swift in Sources */,
 				8E799A3820618036008A799A /* AppDelegate.swift in Sources */,
-				8E799A48206180BE008A799A /* SplitViewController.swift in Sources */,
+				8E799A48206180BE008A799A /* SplitViewController+.swift in Sources */,
 				8E799A5D20618118008A799A /* EvaluateParameters.swift in Sources */,
 				8E799A7020618190008A799A /* Ingredient.swift in Sources */,
 				8E799A6620618138008A799A /* APIService.swift in Sources */,
-				8E799A46206180BE008A799A /* ViewController.swift in Sources */,
+				8E799A46206180BE008A799A /* ViewController+.swift in Sources */,
 				8E799A50206180E4008A799A /* DetailViewController.swift in Sources */,
 				8E799A4F206180E4008A799A /* MasterViewController.swift in Sources */,
-				8E799A44206180BE008A799A /* Array.swift in Sources */,
+				8E799A44206180BE008A799A /* Array+.swift in Sources */,
+				8EF5D2FD206B6D5D0076B5CC /* MasterViewModeling.swift in Sources */,
 				8E799A45206180BE008A799A /* SwinjectStoryboard+Setup.swift in Sources */,
 				8E799A4E206180E4008A799A /* EditViewController.swift in Sources */,
 				8E799A362061622F008A799A /* StubNetwork.swift in Sources */,

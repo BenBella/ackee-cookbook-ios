@@ -18,6 +18,10 @@ class DetailViewControllerSpec: QuickSpec {
     
     override func spec() {
         var container: Container!
+        
+        // SUT
+        
+        // 1. given
         beforeEach {
             container = Container()
             
@@ -39,8 +43,10 @@ class DetailViewControllerSpec: QuickSpec {
         it("starts fetching recipe information when the view is about appearing.") {
             let controller = container.resolve(DetailViewController.self)!
             controller.viewModel?.contentChangesSignal.observeValues({ flag in
+                // 2. then
                 expect(flag).to(equal(true))
             })
+            // 2. when
             controller.viewWillAppear(true)
         }
     }
