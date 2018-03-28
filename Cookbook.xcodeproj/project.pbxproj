@@ -10,7 +10,6 @@
 		1EBED843F181C2EA8A2E311C /* Pods_Cookbook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03CDC81954A5D8A2425D22FF /* Pods_Cookbook.framework */; };
 		2DEA4643A76FD437AF885DAE /* Pods_CookbookTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8038FDA6535FDAC7E3AA2C0 /* Pods_CookbookTests.framework */; };
 		8E312666205BCEB300C86B61 /* NetworkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E312665205BCEB300C86B61 /* NetworkSpec.swift */; };
-		8E5C4FA1205182FD008C308E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5C4FA0205182FD008C308E /* Theme.swift */; };
 		8E5C62D32063BE8E00A898B6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */; };
 		8E71F475206232AA00397B47 /* MasterViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */; };
 		8E71F47A20625E4E00397B47 /* StubAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71F47820625D5C00397B47 /* StubAPIService.swift */; };
@@ -47,9 +46,11 @@
 		8EF5D302206B6FC30076B5CC /* EditViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D2FF206B6FC20076B5CC /* EditViewModeling.swift */; };
 		8EF5D303206B6FC30076B5CC /* MasterViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D300206B6FC30076B5CC /* MasterViewModeling.swift */; };
 		8EF5D305206B6FDF0076B5CC /* CookbookAPIServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D304206B6FDF0076B5CC /* CookbookAPIServicing.swift */; };
-		8EF5D30B206B70040076B5CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF5D306206B70030076B5CC /* LaunchScreen.storyboard */; };
-		8EF5D30C206B70040076B5CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF5D307206B70030076B5CC /* Main.storyboard */; };
-		8EF5D30F206B70040076B5CC /* SwinjectStoryboard+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D30A206B70040076B5CC /* SwinjectStoryboard+Setup.swift */; };
+		8EF5D315206B72120076B5CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF5D310206B72110076B5CC /* LaunchScreen.storyboard */; };
+		8EF5D316206B72120076B5CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EF5D311206B72110076B5CC /* Main.storyboard */; };
+		8EF5D319206B72120076B5CC /* SwinjectStoryboard+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D314206B72120076B5CC /* SwinjectStoryboard+Setup.swift */; };
+		8EF5D31B206B72600076B5CC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8EF5D31A206B72600076B5CC /* Info.plist */; };
+		8EF5D31C206B72720076B5CC /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF5D312206B72120076B5CC /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +69,6 @@
 		8E312663205BCEB300C86B61 /* CookbookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookbookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E312665205BCEB300C86B61 /* NetworkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSpec.swift; sourceTree = "<group>"; };
 		8E312667205BCEB300C86B61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E5C4FA0205182FD008C308E /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = .swiftlint.yml; path = "Cookbook-Test-Project/.swiftlint.yml"; sourceTree = SOURCE_ROOT; };
 		8E71F474206232AA00397B47 /* MasterViewControllerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewControllerSpec.swift; sourceTree = "<group>"; };
 		8E71F47620625C0E00397B47 /* recipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe.json; sourceTree = "<group>"; };
@@ -105,10 +105,11 @@
 		8EF5D2FF206B6FC20076B5CC /* EditViewModeling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditViewModeling.swift; path = "Cookbook-Test-Project/EditViewModeling.swift"; sourceTree = "<group>"; };
 		8EF5D300206B6FC30076B5CC /* MasterViewModeling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewModeling.swift; path = "Cookbook-Test-Project/MasterViewModeling.swift"; sourceTree = "<group>"; };
 		8EF5D304206B6FDF0076B5CC /* CookbookAPIServicing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CookbookAPIServicing.swift; path = "Cookbook-Test-Project/CookbookAPIServicing.swift"; sourceTree = "<group>"; };
-		8EF5D306206B70030076B5CC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8EF5D307206B70030076B5CC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		8EF5D309206B70030076B5CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8EF5D30A206B70040076B5CC /* SwinjectStoryboard+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwinjectStoryboard+Setup.swift"; sourceTree = "<group>"; };
+		8EF5D310206B72110076B5CC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "Cookbook-Test-Project/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		8EF5D311206B72110076B5CC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "Cookbook-Test-Project/Main.storyboard"; sourceTree = "<group>"; };
+		8EF5D312206B72120076B5CC /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Theme.swift; path = "Cookbook-Test-Project/Theme.swift"; sourceTree = "<group>"; };
+		8EF5D314206B72120076B5CC /* SwinjectStoryboard+Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SwinjectStoryboard+Setup.swift"; path = "Cookbook-Test-Project/SwinjectStoryboard+Setup.swift"; sourceTree = "<group>"; };
+		8EF5D31A206B72600076B5CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C9E934CE6D3099D02ED5692 /* Pods-Cookbook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cookbook.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cookbook/Pods-Cookbook.release.xcconfig"; sourceTree = "<group>"; };
 		B4B814FF1E27831800C8A24B /* Cookbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cookbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8DBC2C751A7CF3EC684F257 /* Pods-CookbookTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CookbookTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CookbookTests/Pods-CookbookTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -259,13 +260,13 @@
 				8E4529E4204C324800F3C0EC /* Models */,
 				B4B815161E2785B900C8A24B /* Networking */,
 				8E799A3720618036008A799A /* AppDelegate.swift */,
-				8EF5D30A206B70040076B5CC /* SwinjectStoryboard+Setup.swift */,
-				8E5C4FA0205182FD008C308E /* Theme.swift */,
+				8EF5D314206B72120076B5CC /* SwinjectStoryboard+Setup.swift */,
+				8EF5D312206B72120076B5CC /* Theme.swift */,
+				8EF5D31A206B72600076B5CC /* Info.plist */,
+				8EF5D310206B72110076B5CC /* LaunchScreen.storyboard */,
+				8EF5D311206B72110076B5CC /* Main.storyboard */,
 				8E5C62D22063BE8D00A898B6 /* .swiftlint.yml */,
-				8EF5D309206B70030076B5CC /* Info.plist */,
 				8E799A692061816C008A799A /* Assets.xcassets */,
-				8EF5D306206B70030076B5CC /* LaunchScreen.storyboard */,
-				8EF5D307206B70030076B5CC /* Main.storyboard */,
 				8E799A682061816C008A799A /* Localizable.strings */,
 			);
 			name = Source;
@@ -382,12 +383,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EF5D31B206B72600076B5CC /* Info.plist in Resources */,
+				8EF5D316206B72120076B5CC /* Main.storyboard in Resources */,
 				8E799A352061622C008A799A /* recipes.json in Resources */,
-				8EF5D30B206B70040076B5CC /* LaunchScreen.storyboard in Resources */,
 				8E71F47B20625F3F00397B47 /* recipe.json in Resources */,
 				8E799A6C2061816C008A799A /* Localizable.strings in Resources */,
+				8EF5D315206B72120076B5CC /* LaunchScreen.storyboard in Resources */,
 				8E5C62D32063BE8E00A898B6 /* .swiftlint.yml in Resources */,
-				8EF5D30C206B70040076B5CC /* Main.storyboard in Resources */,
 				8E799A6D2061816C008A799A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,7 +560,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E799A56206180F8008A799A /* EditViewModel.swift in Sources */,
-				8EF5D30F206B70040076B5CC /* SwinjectStoryboard+Setup.swift in Sources */,
 				8E799A54206180F8008A799A /* MasterViewModel.swift in Sources */,
 				8E799A5E20618118008A799A /* Changeset.swift in Sources */,
 				8E799A43206180BE008A799A /* String+.swift in Sources */,
@@ -574,6 +575,7 @@
 				8EF5D301206B6FC30076B5CC /* DetailViewModeling.swift in Sources */,
 				8E799A48206180BE008A799A /* SplitViewController+.swift in Sources */,
 				8EF5D305206B6FDF0076B5CC /* CookbookAPIServicing.swift in Sources */,
+				8EF5D31C206B72720076B5CC /* Theme.swift in Sources */,
 				8E799A5D20618118008A799A /* EvaluateParameters.swift in Sources */,
 				8E799A7020618190008A799A /* Ingredient.swift in Sources */,
 				8E799A6620618138008A799A /* APIService.swift in Sources */,
@@ -584,8 +586,8 @@
 				8E799A44206180BE008A799A /* Array+.swift in Sources */,
 				8E799A4E206180E4008A799A /* EditViewController.swift in Sources */,
 				8EF5D302206B6FC30076B5CC /* EditViewModeling.swift in Sources */,
+				8EF5D319206B72120076B5CC /* SwinjectStoryboard+Setup.swift in Sources */,
 				8E799A362061622F008A799A /* StubNetwork.swift in Sources */,
-				8E5C4FA1205182FD008C308E /* Theme.swift in Sources */,
 				8E799A6420618138008A799A /* Network.swift in Sources */,
 				8E799A6020618118008A799A /* Recipe.swift in Sources */,
 			);
